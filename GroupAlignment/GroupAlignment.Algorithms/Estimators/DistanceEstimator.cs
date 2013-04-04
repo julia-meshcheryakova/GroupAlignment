@@ -9,7 +9,6 @@ namespace GroupAlignment.Algorithms.Estimators
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
 
     using GroupAlignment.Core.Models;
 
@@ -26,10 +25,10 @@ namespace GroupAlignment.Algorithms.Estimators
         /// <returns>Distance estimate</returns>
         public double SimpleDistance(BaseSequence sequence1, BaseSequence sequence2)
         {
-            var maxLength = Math.Max(sequence1.Value.Count, sequence2.Value.Count);
+            var maxLength = Math.Max(sequence1.Count, sequence2.Count);
             this.CompleteSequence(sequence1, maxLength);
             this.CompleteSequence(sequence2, maxLength);
-            var pairSequence = this.ToPair(sequence1.Value, sequence2.Value, (x, y) => new { nucl1 = x, nucl2 = y });
+            var pairSequence = this.ToPair(sequence1, sequence2, (x, y) => new { nucl1 = x, nucl2 = y });
             var res = pairSequence.Sum(pair => this.SimpleNucleotideDistance(pair.nucl1, pair.nucl2));
             return res;
             ///// sequence1.Value.Sum((n, i) =>  sequence2.Value[i])
@@ -53,7 +52,7 @@ namespace GroupAlignment.Algorithms.Estimators
         /// <param name="count">The count.</param>
         public void CompleteSequence(BaseSequence sequence, int count)
         {
-            var length = sequence.Value.Count;
+            var length = sequence.Count;
             if (length >= count)
             {
                 return;
@@ -61,7 +60,7 @@ namespace GroupAlignment.Algorithms.Estimators
 
             for (var i = 0; i < count - length; ++i)
             {
-                sequence.Value.Add(Nucleotide._);
+                sequence.Add(Nucleotide._);
             }
         }
 

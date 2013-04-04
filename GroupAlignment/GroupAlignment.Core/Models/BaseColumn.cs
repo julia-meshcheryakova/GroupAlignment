@@ -4,9 +4,9 @@ namespace GroupAlignment.Core.Models
     using System.Collections.Generic;
 
     /// <summary>
-    /// Sequence - chain of the nucleotides
+    /// Column - chain of the nucleotides
     /// </summary>
-    public class BaseSequence : List<Nucleotide>
+    public class BaseColumn : List<Nucleotide>
     {
     }
 }

@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Alignment.cs" />
+    <Compile Include="Models\BaseColumn.cs" />
     <Compile Include="Models\Nucleotide.cs" />
     <Compile Include="Models\BaseSequence.cs" />
     <Compile Include="Models\Sequence.cs" />
