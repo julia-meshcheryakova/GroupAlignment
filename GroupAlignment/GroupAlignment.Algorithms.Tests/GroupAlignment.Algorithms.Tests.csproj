@@ -45,6 +45,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EstimatorsTests\SimpleDistanceEstimatorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -52,9 +53,12 @@
       <Project>{36BB7A6B-2C62-4D03-B0DD-A6262C30080A}</Project>
       <Name>GroupAlignment.Algorithms</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GroupAlignment.Core\GroupAlignment.Core.csproj">
+      <Project>{8119F15C-09B2-4D5D-BBA0-2EE548ACECBB}</Project>
+      <Name>GroupAlignment.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="EstimatorTests\" />
     <Folder Include="PairTests\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

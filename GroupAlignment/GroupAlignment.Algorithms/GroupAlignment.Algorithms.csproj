@@ -40,7 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Estimators\DistanceEstimator.cs" />
+    <Compile Include="Estimators\AbstractDistanceEstimator.cs" />
+    <Compile Include="Estimators\SimpleDistanceEstimator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
