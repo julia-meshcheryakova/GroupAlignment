@@ -95,8 +95,8 @@ namespace GroupAlignment.Algorithms.Estimators
         public override int Distance(BaseSequence sequence1, BaseSequence sequence2)
         {
             var maxLength = Math.Max(sequence1.Count, sequence2.Count);
-            this.CompleteSequence(sequence1, maxLength);
-            this.CompleteSequence(sequence2, maxLength);
+            sequence1 = BaseSequence.Complete(sequence1, maxLength);
+            sequence2 = BaseSequence.Complete(sequence2, maxLength);
             var pairSequence = this.ToPair(sequence1, sequence2, (x, y) => new NucleotidePair(x, y));
             var res = pairSequence.Sum(pair => this.NucleotideDistance(pair.First, pair.Second));
             return res;

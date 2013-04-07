@@ -11,6 +11,13 @@ namespace GroupAlignment.Core.Models
         /// <summary>
         /// Initializes a new instance of the <see cref="PairAlignment"/> class.
         /// </summary>
+        public PairAlignment()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PairAlignment"/> class.
+        /// </summary>
         /// <param name="sequence1">The first sequence.</param>
         /// <param name="sequence2">The second sequence.</param>
         public PairAlignment(BaseSequence sequence1, BaseSequence sequence2)

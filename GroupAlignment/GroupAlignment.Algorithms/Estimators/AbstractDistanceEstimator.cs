@@ -13,6 +13,7 @@ namespace GroupAlignment.Algorithms.Estimators
     using System.Collections.Generic;
     using System.Linq;
 
+    using GroupAlignment.Core.Extentions;
     using GroupAlignment.Core.Models;
 
     /// <summary>
@@ -50,25 +51,6 @@ namespace GroupAlignment.Algorithms.Estimators
         /// <returns>Distance estimate</returns>
         public abstract int NucleotideDistance(NucleotidePair pair);
         
-        /// <summary>
-        /// Completes sequence to the certain length
-        /// </summary>
-        /// <param name="sequence">The sequence.</param>
-        /// <param name="count">The count.</param>
-        public void CompleteSequence(BaseSequence sequence, int count)
-        {
-            var length = sequence.Count;
-            if (length >= count)
-            {
-                return;
-            }
-
-            for (var i = 0; i < count - length; ++i)
-            {
-                sequence.Add(Nucleotide._);
-            }
-        }
-
         /// <summary>
         /// Combines 2 lists to one
         /// </summary>

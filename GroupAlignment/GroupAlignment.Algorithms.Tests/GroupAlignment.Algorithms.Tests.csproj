@@ -45,6 +45,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EstimatorsTests\BaseSequenceTests.cs" />
     <Compile Include="EstimatorsTests\OperationDistanceEstimatorTests.cs" />
     <Compile Include="EstimatorsTests\SimpleDistanceEstimatorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
