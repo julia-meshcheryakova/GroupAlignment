@@ -45,6 +45,8 @@
     <Compile Include="Models\Alignment.cs" />
     <Compile Include="Models\BaseColumn.cs" />
     <Compile Include="Models\Column.cs" />
+    <Compile Include="Models\NucleotidePair.cs" />
+    <Compile Include="Models\PairAlignment.cs" />
     <Compile Include="Models\Nucleotide.cs" />
     <Compile Include="Models\BaseSequence.cs" />
     <Compile Include="Models\Sequence.cs" />

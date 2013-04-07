@@ -27,10 +27,19 @@ namespace GroupAlignment.Algorithms.Estimators
             var maxLength = Math.Max(sequence1.Count, sequence2.Count);
             this.CompleteSequence(sequence1, maxLength);
             this.CompleteSequence(sequence2, maxLength);
-            var pairSequence = this.ToPair(sequence1, sequence2, (x, y) => new { nucl1 = x, nucl2 = y });
-            var res = pairSequence.Sum(pair => this.NucleotideDistance(pair.nucl1, pair.nucl2));
+            var pairSequence = this.ToPair(sequence1, sequence2, (x, y) => new NucleotidePair(x, y));
+            var res = pairSequence.Sum(pair => this.NucleotideDistance(pair.First, pair.Second));
             return res;
-            ///// sequence1.Value.Sum((n, i) =>  sequence2.Value[i])
+        }
+
+        /// <summary>
+        /// The distance.
+        /// </summary>
+        /// <param name="pair">The pair sequence.</param>
+        /// <returns>The <see cref="int"/>.</returns>
+        public override int Distance(PairAlignment pair)
+        {
+            return pair.Columns.Sum(c => this.NucleotideDistance(c.First, c.Second));
         }
 
         /// <summary>
@@ -42,6 +51,16 @@ namespace GroupAlignment.Algorithms.Estimators
         public override int NucleotideDistance(Nucleotide n1, Nucleotide n2)
         {
             return n1 == n2 ? 0 : 1;
+        }
+
+        /// <summary>
+        /// Gets simple distance estimate for 2 nucleotides
+        /// </summary>
+        /// <param name="pair">The nucleotide pair.</param>
+        /// <returns>Distance estimate</returns>
+        public override int NucleotideDistance(NucleotidePair pair)
+        {
+            return pair.First == pair.Second ? 0 : 1;
         }
     }
 }

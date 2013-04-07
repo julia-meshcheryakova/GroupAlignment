@@ -29,6 +29,13 @@ namespace GroupAlignment.Algorithms.Estimators
         public abstract int Distance(BaseSequence sequence1, BaseSequence sequence2);
 
         /// <summary>
+        /// Gets simple distance estimate for 2 sequences
+        /// </summary>
+        /// <param name="pair">The sequence pair.</param>
+        /// <returns>Distance estimate</returns>
+        public abstract int Distance(PairAlignment pair);
+
+        /// <summary>
         /// Gets simple distance estimate for 2 nucleotides
         /// </summary>
         /// <param name="n1">The nucleotide 1.</param>
@@ -36,6 +43,13 @@ namespace GroupAlignment.Algorithms.Estimators
         /// <returns>Distance estimate</returns>
         public abstract int NucleotideDistance(Nucleotide n1, Nucleotide n2);
 
+        /// <summary>
+        /// Gets simple distance estimate for 2 nucleotides
+        /// </summary>
+        /// <param name="pair">The nucleotide pair.</param>
+        /// <returns>Distance estimate</returns>
+        public abstract int NucleotideDistance(NucleotidePair pair);
+        
         /// <summary>
         /// Completes sequence to the certain length
         /// </summary>

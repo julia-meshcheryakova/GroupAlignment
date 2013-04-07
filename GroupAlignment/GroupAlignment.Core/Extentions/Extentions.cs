@@ -30,5 +30,37 @@
         {
             return new List<T>(oldList);
         }
+
+        /// <summary>
+        /// The add range method for dictionary. If the key exists - value is updated.
+        /// </summary>
+        /// <param name="source">The source dictionary.</param>
+        /// <param name="collection">The collection.</param>
+        /// <typeparam name="T">Key type.</typeparam>
+        /// <typeparam name="TS">Value type.</typeparam>
+        public static void AddRange<T, TS>(this Dictionary<T, TS> source, Dictionary<T, TS> collection)
+        {
+            if (collection == null)
+            {
+                collection = new Dictionary<T, TS>();
+            }
+
+            if (source == null)
+            {
+                source = new Dictionary<T, TS>();
+            }
+
+            foreach (var item in collection)
+            {
+                if (!source.ContainsKey(item.Key))
+                {
+                    source.Add(item.Key, item.Value);
+                }
+                else
+                {
+                    source[item.Key] = item.Value;
+                }
+            }
+        }
     }
 }

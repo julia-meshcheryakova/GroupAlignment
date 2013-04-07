@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Estimators\AbstractDistanceEstimator.cs" />
+    <Compile Include="Estimators\OperationDistanceEstimator.cs" />
     <Compile Include="Estimators\SimpleDistanceEstimator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
