@@ -25,6 +25,23 @@ namespace GroupAlignment.Core.Models
         }
 
         /// <summary>
+        /// The indexer override.
+        /// </summary>
+        /// <param name="index">
+        /// The index.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Nucleotide?"/>.
+        /// </returns>
+        public new Nucleotide this[int index]
+        {
+            get
+            {
+                return index > this.Count || index <= 0 ? Nucleotide._ : base[index - 1];
+            }
+        }
+
+        /// <summary>
         /// Completes sequence to the certain length
         /// </summary>
         /// <param name="sequence">The sequence.</param>

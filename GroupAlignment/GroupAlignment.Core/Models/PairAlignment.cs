@@ -2,6 +2,7 @@
 namespace GroupAlignment.Core.Models
 {
     using System.Collections.Generic;
+    using System.Web.UI;
 
     /// <summary>
     /// Alignment - list of the sequences
@@ -24,6 +25,10 @@ namespace GroupAlignment.Core.Models
         {
             this.First = sequence1;
             this.Second = sequence2;
+            this.FirstAligned = new BaseSequence();
+            this.SecondAligned = new BaseSequence();
+            this.Columns = new List<NucleotidePair>();
+            this.DynamicTable = new Dictionary<Pair, DynamicTableItem>();
         }
 
         /// <summary>
@@ -50,5 +55,21 @@ namespace GroupAlignment.Core.Models
         /// Gets or sets aligned sequences.
         /// </summary>
         public List<NucleotidePair> Columns { get; set; }
+
+        /// <summary>
+        /// Gets or sets the distance dynamic table.
+        /// </summary>
+        public Dictionary<Pair, DynamicTableItem> DynamicTable { get; set; }
+
+        /// <summary>
+        /// Gets the length.
+        /// </summary>
+        public int Length
+        {
+            get
+            {
+                return this.First.Count;
+            }
+        }
     }
 }

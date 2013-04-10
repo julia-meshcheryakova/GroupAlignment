@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,11 +44,11 @@
     <Compile Include="Estimators\AbstractDistanceEstimator.cs" />
     <Compile Include="Estimators\OperationDistanceEstimator.cs" />
     <Compile Include="Estimators\SimpleDistanceEstimator.cs" />
+    <Compile Include="PairAlignmentAlgorithms\PairAlignmentAlgorithm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MultipleAlignmentAlgorithms\" />
-    <Folder Include="PairAlignmentAlgorithms\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GroupAlignment.Core\GroupAlignment.Core.csproj">

@@ -34,6 +34,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -45,6 +46,7 @@
     <Compile Include="Models\Alignment.cs" />
     <Compile Include="Models\BaseColumn.cs" />
     <Compile Include="Models\Column.cs" />
+    <Compile Include="Models\DynamicTableItem.cs" />
     <Compile Include="Models\NucleotidePair.cs" />
     <Compile Include="Models\PairAlignment.cs" />
     <Compile Include="Models\Nucleotide.cs" />
