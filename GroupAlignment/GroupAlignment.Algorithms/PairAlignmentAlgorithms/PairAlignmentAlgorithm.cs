@@ -40,7 +40,7 @@ namespace GroupAlignment.Algorithms.PairAlignmentAlgorithms
         /// The dynamic table fill.
         /// </summary>
         /// <param name="alignment">The alignment.</param>
-        /// <returns>The <see cref="Dictionary"/> dynamic table.</returns>
+        /// <returns>The dynamic table.</returns>
         private Dictionary<Pair, DynamicTableItem> DynamicTableFill(PairAlignment alignment)
         {
             var length = alignment.Length + 1;
