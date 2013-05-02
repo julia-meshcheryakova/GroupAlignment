@@ -27,12 +27,8 @@ namespace GroupAlignment.Core.Models
         /// <summary>
         /// The indexer override.
         /// </summary>
-        /// <param name="index">
-        /// The index.
-        /// </param>
-        /// <returns>
-        /// The <see cref="Nucleotide?"/>.
-        /// </returns>
+        /// <param name="index">The index.</param>
+        /// <returns>The <see cref="Nucleotide"/>.</returns>
         public new Nucleotide this[int index]
         {
             get

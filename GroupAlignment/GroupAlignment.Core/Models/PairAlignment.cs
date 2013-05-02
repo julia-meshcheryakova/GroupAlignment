@@ -42,24 +42,14 @@ namespace GroupAlignment.Core.Models
         public BaseSequence Second { get; set; }
 
         /// <summary>
-        /// Gets or sets first aligned sequence.
-        /// </summary>
-        public BaseSequence FirstAligned { get; set; }
-
-        /// <summary>
-        /// Gets or sets first aligned sequence.
-        /// </summary>
-        public BaseSequence SecondAligned { get; set; }
-
-        /// <summary>
-        /// Gets or sets aligned sequences.
-        /// </summary>
-        public List<NucleotidePair> Columns { get; set; }
-
-        /// <summary>
         /// Gets or sets the distance dynamic table.
         /// </summary>
         public Dictionary<Pair, DynamicTableItem> DynamicTable { get; set; }
+
+        /// <summary>
+        /// Gets or sets aligned sequences variants.
+        /// </summary>
+        public List<PairSequence> Variants { get; set; }
 
         /// <summary>
         /// Gets the length.

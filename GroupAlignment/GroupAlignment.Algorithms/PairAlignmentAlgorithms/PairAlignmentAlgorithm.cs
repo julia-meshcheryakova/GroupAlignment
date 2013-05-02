@@ -27,11 +27,21 @@ namespace GroupAlignment.Algorithms.PairAlignmentAlgorithms
         /// </summary>
         public OperationDistanceEstimator Estimator { get; set; }
 
+        public List<List<NucleotidePair>> GenerateAligned(PairAlignment alignment)
+        {
+            if (alignment.DynamicTable.Count == 0)
+            {
+                this.FillDynamic(alignment);
+            }
+
+
+        }
+
         /// <summary>
         /// The generate method.
         /// </summary>
         /// <param name="alignment">The pair alignment.</param>
-        public void Generate(PairAlignment alignment)
+        public void FillDynamic(PairAlignment alignment)
         {
             alignment.DynamicTable = this.DynamicTableFill(alignment);
         }
