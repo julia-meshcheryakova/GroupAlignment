@@ -25,9 +25,8 @@ namespace GroupAlignment.Core.Models
         {
             this.First = sequence1;
             this.Second = sequence2;
-            this.FirstAligned = new BaseSequence();
-            this.SecondAligned = new BaseSequence();
-            this.Columns = new List<NucleotidePair>();
+            this.Ways = new List<List<Pair>>();
+            this.AlignedSequences = new List<PairSequence>();
             this.DynamicTable = new Dictionary<Pair, DynamicTableItem>();
         }
 
@@ -47,9 +46,14 @@ namespace GroupAlignment.Core.Models
         public Dictionary<Pair, DynamicTableItem> DynamicTable { get; set; }
 
         /// <summary>
-        /// Gets or sets aligned sequences variants.
+        /// Gets or sets ways of alignment if dynamic table.
         /// </summary>
-        public List<PairSequence> Variants { get; set; }
+        public List<List<Pair>> Ways { get; set; }
+
+        /// <summary>
+        /// Gets or sets variants of sequences alignments.
+        /// </summary>
+        public List<PairSequence> AlignedSequences { get; set; }
 
         /// <summary>
         /// Gets the length.

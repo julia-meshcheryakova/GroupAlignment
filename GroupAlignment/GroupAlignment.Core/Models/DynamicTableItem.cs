@@ -21,9 +21,11 @@ namespace GroupAlignment.Core.Models
         /// </summary>
         /// <param name="distance">The distance.</param>
         /// <param name="predecessors">The predecessors list.</param>
-        public DynamicTableItem(int distance, List<Pair> predecessors)
+        /// <param name="current">The current pair.</param>
+        public DynamicTableItem(int distance, List<Pair> predecessors, Pair current = null)
         {
             this.Distance = distance;
+            this.Current = current;
             this.Predecessors = predecessors;
         }
 
@@ -31,6 +33,11 @@ namespace GroupAlignment.Core.Models
         /// Gets or sets the distance.
         /// </summary>
         public int Distance { get; set; }
+
+        /// <summary>
+        /// Gets or sets the current pair.
+        /// </summary>
+        public Pair Current { get; set; }
 
         /// <summary>
         /// Gets or sets the predecessors list.

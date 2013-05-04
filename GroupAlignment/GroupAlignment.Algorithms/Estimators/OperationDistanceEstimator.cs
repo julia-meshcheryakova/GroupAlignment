@@ -12,6 +12,7 @@ namespace GroupAlignment.Algorithms.Estimators
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Web.UI;
 
     using GroupAlignment.Core.Extentions;
     using GroupAlignment.Core.Models;
@@ -109,7 +110,7 @@ namespace GroupAlignment.Algorithms.Estimators
         /// <returns>Distance estimate</returns>
         public override int Distance(PairAlignment pair)
         {
-            return pair.Columns.Sum(c => this.NucleotideDistance(c.First, c.Second));
+            return pair.DynamicTable[new Pair(pair.Length, pair.Length)].Distance;
         }
 
         /// <summary>

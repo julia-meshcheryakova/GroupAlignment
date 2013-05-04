@@ -2,16 +2,24 @@
 namespace GroupAlignment.Algorithms.Tests.EstimatorsTests
 {
     using GroupAlignment.Algorithms.Estimators;
-    using GroupAlignment.Core.Extentions;
     using GroupAlignment.Core.Models;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+    /// <summary>
+    /// The operation distance estimator tests.
+    /// </summary>
     [TestClass]
     public class OperationDistanceEstimatorTests
     {
+        /// <summary>
+        /// The operation distance estimator.
+        /// </summary>
         private OperationDistanceEstimator operationDistanceEstimator;
 
+        /// <summary>
+        /// Gets the operation distance estimator.
+        /// </summary>
         public OperationDistanceEstimator OperationDistanceEstimator
         {
             get
@@ -20,6 +28,9 @@ namespace GroupAlignment.Algorithms.Tests.EstimatorsTests
             }
         }
 
+        /// <summary>
+        /// The operation nucleotide distance test.
+        /// </summary>
         [TestMethod]
         public void OperationNucleotideDistanceTest()
         {
@@ -32,6 +43,9 @@ namespace GroupAlignment.Algorithms.Tests.EstimatorsTests
             Assert.IsTrue(this.OperationDistanceEstimator.NucleotideDistance(Nucleotide._, Nucleotide._) == 0);
         }
 
+        /// <summary>
+        /// The operation distance test.
+        /// </summary>
         [TestMethod]
         public void OperationDistanceTest()
         {
