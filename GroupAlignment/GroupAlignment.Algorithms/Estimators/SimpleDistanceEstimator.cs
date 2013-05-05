@@ -8,8 +8,7 @@ namespace GroupAlignment.Algorithms.Estimators
 {
     using System;
     using System.Linq;
-    using System.Web.UI;
-
+    using GroupAlignment.Core.Extentions;
     using GroupAlignment.Core.Models;
 
     /// <summary>
@@ -40,7 +39,7 @@ namespace GroupAlignment.Algorithms.Estimators
         /// <returns>The <see cref="int"/>.</returns>
         public override int Distance(PairAlignment pair)
         {
-            return pair.DynamicTable[new Pair(pair.Length, pair.Length)].Distance;
+            return pair.DynamicTable[new Index(pair.Length, pair.Length)].Distance;
         }
 
         /// <summary>

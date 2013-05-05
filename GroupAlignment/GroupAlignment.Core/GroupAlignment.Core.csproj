@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extentions\Extentions.cs" />
+    <Compile Include="Extentions\Index.cs" />
     <Compile Include="Models\Alignment.cs" />
     <Compile Include="Models\BaseColumn.cs" />
     <Compile Include="Models\Column.cs" />

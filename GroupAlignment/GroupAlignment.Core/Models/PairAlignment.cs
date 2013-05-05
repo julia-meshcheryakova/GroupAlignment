@@ -2,7 +2,8 @@
 namespace GroupAlignment.Core.Models
 {
     using System.Collections.Generic;
-    using System.Web.UI;
+
+    using GroupAlignment.Core.Extentions;
 
     /// <summary>
     /// Alignment - list of the sequences
@@ -25,9 +26,9 @@ namespace GroupAlignment.Core.Models
         {
             this.First = sequence1;
             this.Second = sequence2;
-            this.Ways = new List<List<Pair>>();
+            this.Ways = new List<List<Index>>();
             this.AlignedSequences = new List<PairSequence>();
-            this.DynamicTable = new Dictionary<Pair, DynamicTableItem>();
+            this.DynamicTable = new Dictionary<Index, DynamicTableItem>();
         }
 
         /// <summary>
@@ -43,12 +44,12 @@ namespace GroupAlignment.Core.Models
         /// <summary>
         /// Gets or sets the distance dynamic table.
         /// </summary>
-        public Dictionary<Pair, DynamicTableItem> DynamicTable { get; set; }
+        public Dictionary<Index, DynamicTableItem> DynamicTable { get; set; }
 
         /// <summary>
         /// Gets or sets ways of alignment if dynamic table.
         /// </summary>
-        public List<List<Pair>> Ways { get; set; }
+        public List<List<Index>> Ways { get; set; }
 
         /// <summary>
         /// Gets or sets variants of sequences alignments.

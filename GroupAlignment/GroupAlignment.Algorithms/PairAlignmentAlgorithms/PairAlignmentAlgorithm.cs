@@ -3,9 +3,9 @@ namespace GroupAlignment.Algorithms.PairAlignmentAlgorithms
 {
     using System.Collections.Generic;
     using System.Linq;
-    using System.Web.UI;
-
+    
     using GroupAlignment.Algorithms.Estimators;
+    using GroupAlignment.Core.Extentions;
     using GroupAlignment.Core.Models;
 
     /// <summary>
@@ -48,20 +48,34 @@ namespace GroupAlignment.Algorithms.PairAlignmentAlgorithms
                 this.FillDynamic(alignment);
             }
 
+            //using (var writer = new StreamWriter("1.txt"))
+            //{
+            //    for (var i = 0; i <= alignment.Length; ++i)
+            //    {
+            //        for (var j = 0; j <= alignment.Length; ++j)
+            //        {
+            //            writer.Write(alignment.DynamicTable[new Index(i, j)].Distance + "\t");
+            //        }
+
+            //        writer.WriteLine();
+            //    }
+            //}
+
             // fill variants
             var length = alignment.Length;
-            var variants = new List<List<Pair>>();
-            variants.Add(new List<Pair> { new Pair(length, length) });
-            while (variants.Any(l => (l.First().First as int?) != 0 && (l.First().Second as int?) != 0))
+            var variants = new List<List<Index>>();
+            variants.Add(new List<Index> { new Index(length, length) });
+            while (variants.Any(l => (l.First().Item1 as int?) != 0 && (l.First().Item2 as int?) != 0))
             {
-                foreach (var variant in variants.Where(l => (l.First().First as int?) != 0 && (l.First().Second as int?) != 0))
+                var variantsCopy = new List<List<Index>>();
+                foreach (var variant in variants.Where(l => (l.First().Item1 as int?) != 0 && (l.First().Item2 as int?) != 0))
                 {
                     var pair = variant.First();
                     var predecessors = alignment.DynamicTable[pair].Predecessors;
-                    var newVariants = new List<List<Pair>> { variant };
+                    var newVariants = new List<List<Index>> { variant };
                     for (var i = 1; i < predecessors.Count; ++i)
                     {
-                        newVariants.Add(new List<Pair>(variant));
+                        newVariants.Add(new List<Index>(variant));
                     }
 
                     for (var i = 0; i < predecessors.Count; ++i)
@@ -69,9 +83,10 @@ namespace GroupAlignment.Algorithms.PairAlignmentAlgorithms
                         newVariants[i].Insert(0, predecessors[i]);
                     }
 
-                    variants.Remove(variant);
-                    variants.AddRange(newVariants);
+                    variantsCopy.AddRange(newVariants);
                 }
+
+                variants = variantsCopy;
             }
 
             var sequences = new List<PairSequence>();
@@ -82,17 +97,17 @@ namespace GroupAlignment.Algorithms.PairAlignmentAlgorithms
                 {
                     var pred = variant[i - 1];
                     var cur = variant[i];
-                    if (pred.First.Equals(cur.First))
+                    if (pred.Item1.Equals(cur.Item1))
                     {
-                        sequence.Add(new NucleotidePair(Nucleotide._, alignment.Second[(int)cur.Second]));
+                        sequence.Add(new NucleotidePair(Nucleotide._, alignment.Second[cur.Item2]));
                     }
-                    else if (pred.Second.Equals(cur.Second))
+                    else if (pred.Item2.Equals(cur.Item2))
                     {
-                        sequence.Add(new NucleotidePair(alignment.First[(int)cur.First], Nucleotide._));
+                        sequence.Add(new NucleotidePair(alignment.First[cur.Item1], Nucleotide._));
                     }
                     else
                     {
-                        sequence.Add(new NucleotidePair(alignment.First[(int)cur.First], alignment.Second[(int)cur.Second]));
+                        sequence.Add(new NucleotidePair(alignment.First[cur.Item1], alignment.Second[cur.Item2]));
                     }
                 }
 
@@ -117,7 +132,7 @@ namespace GroupAlignment.Algorithms.PairAlignmentAlgorithms
         /// </summary>
         /// <param name="alignment">The alignment.</param>
         /// <returns>The aligned sequence variants.</returns>
-        public List<List<Pair>> GenerateGraphWays(PairAlignment alignment)
+        public List<List<Index>> GenerateGraphWays(PairAlignment alignment)
         {
             if (alignment.DynamicTable.Count == 0)
             {
@@ -126,18 +141,18 @@ namespace GroupAlignment.Algorithms.PairAlignmentAlgorithms
 
             // fill variants
             var length = alignment.Length;
-            var ways = new List<List<Pair>>();
-            ways.Add(new List<Pair> { new Pair(length, length) });
-            while (ways.Any(l => (l.First().First as int?) != 0 && (l.First().Second as int?) != 0))
+            var ways = new List<List<Index>>();
+            ways.Add(new List<Index> { new Index(length, length) });
+            while (ways.Any(l => (l.First().Item1 as int?) != 0 && (l.First().Item2 as int?) != 0))
             {
-                foreach (var way in ways.Where(l => (l.First().First as int?) != 0 && (l.First().Second as int?) != 0))
+                foreach (var way in ways.Where(l => (l.First().Item1 as int?) != 0 && (l.First().Item2 as int?) != 0))
                 {
                     var pair = way.First();
                     var predecessors = alignment.DynamicTable[pair].Predecessors;
-                    var newWays = new List<List<Pair>> { way };
+                    var newWays = new List<List<Index>> { way };
                     for (var i = 1; i < predecessors.Count; ++i)
                     {
-                        newWays.Add(new List<Pair>(way));
+                        newWays.Add(new List<Index>(way));
                     }
 
                     for (var i = 0; i < predecessors.Count; ++i)
@@ -167,29 +182,29 @@ namespace GroupAlignment.Algorithms.PairAlignmentAlgorithms
         /// </summary>
         /// <param name="alignment">The alignment.</param>
         /// <returns>The dynamic table.</returns>
-        private Dictionary<Pair, DynamicTableItem> GenerateDynamicTable(PairAlignment alignment)
+        private Dictionary<Index, DynamicTableItem> GenerateDynamicTable(PairAlignment alignment)
         {
             var length = alignment.Length + 1;
-            var dynamicTable = new Dictionary<Pair, DynamicTableItem>
+            var dynamicTable = new Dictionary<Index, DynamicTableItem>
                 {
-                    { new Pair(0, 0), new DynamicTableItem(0, new List<Pair>()) }
+                    { new Index(0, 0), new DynamicTableItem(0, new List<Index>()) }
                 };
 
             // first row and column set
             for (var i = 1; i < length; i++)
             {
-                dynamicTable.Add(new Pair(0, i), new DynamicTableItem(i * this.Estimator.NucleotideDistance(alignment.Second[i], Nucleotide._), new List<Pair> { new Pair(0, i - 1) }));
-                dynamicTable.Add(new Pair(i, 0), new DynamicTableItem(i * this.Estimator.NucleotideDistance(alignment.First[i], Nucleotide._), new List<Pair> { new Pair(i - 1, 0) }));
+                dynamicTable.Add(new Index(0, i), new DynamicTableItem(i * this.Estimator.NucleotideDistance(alignment.Second[i], Nucleotide._), new List<Index> { new Index(0, i - 1) }));
+                dynamicTable.Add(new Index(i, 0), new DynamicTableItem(i * this.Estimator.NucleotideDistance(alignment.First[i], Nucleotide._), new List<Index> { new Index(i - 1, 0) }));
             }
 
             for (var i = 1; i < length; i++)
             {
                 for (var j = 1; j < length; j++)
                 {
-                    var pj = new Pair(i - 1, j); // same column
-                    var pi = new Pair(i, j - 1); // same row
-                    var pij = new Pair(i - 1, j - 1);
-                    var estimates = new Dictionary<Pair, int>
+                    var pj = new Index(i - 1, j); // same column
+                    var pi = new Index(i, j - 1); // same row
+                    var pij = new Index(i - 1, j - 1);
+                    var estimates = new Dictionary<Index, int>
                         {
                             { pj, dynamicTable[pj].Distance + this.Estimator.NucleotideDistance(alignment.First[i], Nucleotide._) },
                             { pi, dynamicTable[pi].Distance + this.Estimator.NucleotideDistance(Nucleotide._, alignment.Second[j]) },
@@ -199,9 +214,9 @@ namespace GroupAlignment.Algorithms.PairAlignmentAlgorithms
                             }
                         };
 
-                    var d = estimates.Values.Max();
+                    var d = estimates.Values.Min();
                     var dynamicTableItem = new DynamicTableItem(d, estimates.Where(e => e.Value == d).Select(e => e.Key).ToList());
-                    dynamicTable.Add(new Pair(i, j), dynamicTableItem);
+                    dynamicTable.Add(new Index(i, j), dynamicTableItem);
                 }
             }
 
