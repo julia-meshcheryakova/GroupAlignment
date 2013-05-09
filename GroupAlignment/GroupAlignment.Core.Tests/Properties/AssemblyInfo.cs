@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("GroupAlignment.Algorithms")]
+[assembly: AssemblyTitle("GroupAlignment.Core.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("GroupAlignment.Algorithms")]
+[assembly: AssemblyProduct("GroupAlignment.Core.Tests")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("0655a834-4805-423c-9053-1f20695dbeb4")]
+[assembly: Guid("315931ee-92df-4326-b40a-1ea0a679c00a")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -42,23 +42,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extentions\Extentions.cs" />
+    <Compile Include="Estimators\AbstractDistanceEstimator.cs" />
+    <Compile Include="Estimators\OperationDistanceEstimator.cs" />
+    <Compile Include="Estimators\SimpleDistanceEstimator.cs" />
+    <Compile Include="Extentions\Extensions.cs" />
     <Compile Include="Extentions\Index.cs" />
-    <Compile Include="Models\Alignment.cs" />
+    <Compile Include="Models\Group\CombinedAlignment.cs" />
     <Compile Include="Models\BaseColumn.cs" />
     <Compile Include="Models\Column.cs" />
-    <Compile Include="Models\PairSequence.cs" />
+    <Compile Include="Models\Group\MultipleSequence.cs" />
+    <Compile Include="Models\Group\MultipleAlignment.cs" />
+    <Compile Include="Models\Pair\PairSequence.cs" />
     <Compile Include="Models\DynamicTableItem.cs" />
-    <Compile Include="Models\NucleotidePair.cs" />
-    <Compile Include="Models\PairAlignment.cs" />
+    <Compile Include="Models\Pair\NucleotidePair.cs" />
+    <Compile Include="Models\Pair\PairAlignment.cs" />
     <Compile Include="Models\Nucleotide.cs" />
     <Compile Include="Models\BaseSequence.cs" />
     <Compile Include="Models\Sequence.cs" />
+    <Compile Include="Algorithms\PairAlignmentAlgorithm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Estimators\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
