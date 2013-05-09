@@ -43,60 +43,16 @@ namespace GroupAlignment.Algorithms.PairAlignmentAlgorithms
         /// <returns>The aligned sequence variants.</returns>
         public List<PairSequence> GenerateAlignedSequences(PairAlignment alignment)
         {
-            if (alignment.DynamicTable.Count == 0)
-            {
-                this.FillDynamic(alignment);
-            }
-
-            //using (var writer = new StreamWriter("1.txt"))
-            //{
-            //    for (var i = 0; i <= alignment.Length; ++i)
-            //    {
-            //        for (var j = 0; j <= alignment.Length; ++j)
-            //        {
-            //            writer.Write(alignment.DynamicTable[new Index(i, j)].Distance + "\t");
-            //        }
-
-            //        writer.WriteLine();
-            //    }
-            //}
-
-            // fill variants
-            var length = alignment.Length;
-            var variants = new List<List<Index>>();
-            variants.Add(new List<Index> { new Index(length, length) });
-            while (variants.Any(l => (l.First().Item1 as int?) != 0 && (l.First().Item2 as int?) != 0))
-            {
-                var variantsCopy = new List<List<Index>>();
-                foreach (var variant in variants.Where(l => (l.First().Item1 as int?) != 0 && (l.First().Item2 as int?) != 0))
-                {
-                    var pair = variant.First();
-                    var predecessors = alignment.DynamicTable[pair].Predecessors;
-                    var newVariants = new List<List<Index>> { variant };
-                    for (var i = 1; i < predecessors.Count; ++i)
-                    {
-                        newVariants.Add(new List<Index>(variant));
-                    }
-
-                    for (var i = 0; i < predecessors.Count; ++i)
-                    {
-                        newVariants[i].Insert(0, predecessors[i]);
-                    }
-
-                    variantsCopy.AddRange(newVariants);
-                }
-
-                variants = variantsCopy;
-            }
+            this.FillGraphWays(alignment);
 
             var sequences = new List<PairSequence>();
-            foreach (var variant in variants)
+            foreach (var way in alignment.Ways)
             {
                 var sequence = new PairSequence();
-                for (var i = 1; i < variant.Count; ++i)
+                for (var i = 1; i < way.Count; ++i)
                 {
-                    var pred = variant[i - 1];
-                    var cur = variant[i];
+                    var pred = way[i - 1];
+                    var cur = way[i];
                     if (pred.Item1.Equals(cur.Item1))
                     {
                         sequence.Add(new NucleotidePair(Nucleotide._, alignment.Second[cur.Item2]));
@@ -118,10 +74,9 @@ namespace GroupAlignment.Algorithms.PairAlignmentAlgorithms
         }
 
         /// <summary>
-        /// The generate aligned.
+        /// Fills graph ways.
         /// </summary>
         /// <param name="alignment">The alignment.</param>
-        /// <returns>The aligned sequence variants.</returns>
         public void FillGraphWays(PairAlignment alignment)
         {
             alignment.Ways = this.GenerateGraphWays(alignment);
@@ -145,6 +100,7 @@ namespace GroupAlignment.Algorithms.PairAlignmentAlgorithms
             ways.Add(new List<Index> { new Index(length, length) });
             while (ways.Any(l => (l.First().Item1 as int?) != 0 && (l.First().Item2 as int?) != 0))
             {
+                var waysCopy = new List<List<Index>>();
                 foreach (var way in ways.Where(l => (l.First().Item1 as int?) != 0 && (l.First().Item2 as int?) != 0))
                 {
                     var pair = way.First();
@@ -160,9 +116,10 @@ namespace GroupAlignment.Algorithms.PairAlignmentAlgorithms
                         newWays[i].Insert(0, predecessors[i]);
                     }
 
-                    ways.Remove(way);
-                    ways.AddRange(newWays);
+                    waysCopy.AddRange(newWays);
                 }
+
+                ways = waysCopy;
             }
 
             return ways;
