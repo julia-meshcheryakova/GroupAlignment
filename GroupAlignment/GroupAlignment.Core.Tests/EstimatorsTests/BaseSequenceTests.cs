@@ -1,5 +1,5 @@
 ﻿
-namespace GroupAlignment.Algorithms.Tests.EstimatorsTests
+namespace GroupAlignment.Core.Tests.EstimatorsTests
 {
     using GroupAlignment.Core.Models;
 

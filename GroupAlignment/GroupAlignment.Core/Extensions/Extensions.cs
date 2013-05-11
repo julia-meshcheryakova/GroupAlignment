@@ -1,4 +1,5 @@
-﻿namespace GroupAlignment.Core.Extentions
+
+namespace GroupAlignment.Core.Extensions
 {
     using System;
     using System.Collections.Generic;
@@ -61,6 +62,18 @@
                     source[item.Key] = item.Value;
                 }
             }
+        }
+
+        /// <summary>
+        /// The equals method for 2 double values.
+        /// </summary>
+        /// <param name="value1">The value 1.</param>
+        /// <param name="value2">The value 2.</param>
+        /// <returns>The <see cref="bool"/>.</returns>
+        public static bool AreEqual(this double value1, double value2)
+        {
+            var difference = .000001;
+            return Math.Abs(value1 - value2) <= difference;
         }
     }
 }

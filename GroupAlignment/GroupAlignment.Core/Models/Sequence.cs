@@ -7,11 +7,6 @@ namespace GroupAlignment.Core.Models
     public class Sequence : BaseSequence
     {
         /// <summary>
-        /// Gets or sets the identifier of sequence in DB
-        /// </summary>
-        public int? Id { get; set; }
-
-        /// <summary>
         /// Gets or sets the name of the chain
         /// </summary>
         public string Name { get; set; }

@@ -1,19 +1,10 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="BaseDistanceEstimator.cs" company="JM">
-//   TODO: Update copyright text.
-// </copyright>
-// <summary>
-//   
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace GroupAlignment.Algorithms.Estimators
+﻿
+namespace GroupAlignment.Core.Estimators
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
-    using GroupAlignment.Core.Extentions;
     using GroupAlignment.Core.Models;
 
     /// <summary>
@@ -34,7 +25,7 @@ namespace GroupAlignment.Algorithms.Estimators
         /// </summary>
         /// <param name="pair">The sequence pair.</param>
         /// <returns>Distance estimate</returns>
-        public abstract int Distance(PairAlignment pair);
+        public abstract double Distance(PairAlignment pair);
 
         /// <summary>
         /// Gets simple distance estimate for 2 nucleotides

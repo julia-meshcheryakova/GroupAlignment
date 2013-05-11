@@ -1,5 +1,5 @@
 ﻿
-namespace GroupAlignment.Core.Models
+namespace GroupAlignment.Core.Models.Pair
 {
     using System.Collections.Generic;
 

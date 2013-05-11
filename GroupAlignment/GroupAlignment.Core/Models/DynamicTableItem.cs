@@ -3,7 +3,7 @@ namespace GroupAlignment.Core.Models
 {
     using System.Collections.Generic;
 
-    using GroupAlignment.Core.Extentions;
+    using global::GroupAlignment.Core.Extensions;
 
     /// <summary>
     /// The dynamic table item.
@@ -23,7 +23,7 @@ namespace GroupAlignment.Core.Models
         /// <param name="distance">The distance.</param>
         /// <param name="predecessors">The predecessors list.</param>
         /// <param name="current">The current pair.</param>
-        public DynamicTableItem(int distance, List<Index> predecessors, Index current = null)
+        public DynamicTableItem(double distance, List<Index> predecessors, Index current = null)
         {
             this.Distance = distance;
             this.Current = current;
@@ -33,7 +33,7 @@ namespace GroupAlignment.Core.Models
         /// <summary>
         /// Gets or sets the distance.
         /// </summary>
-        public int Distance { get; set; }
+        public double Distance { get; set; }
 
         /// <summary>
         /// Gets or sets the current pair.

@@ -3,7 +3,9 @@ namespace GroupAlignment.Core.Models
 {
     using System.Collections.Generic;
 
-    using GroupAlignment.Core.Extentions;
+    using GroupAlignment.Core.Models.Pair;
+
+    using global::GroupAlignment.Core.Extensions;
 
     /// <summary>
     /// Alignment - list of the sequences
@@ -55,6 +57,17 @@ namespace GroupAlignment.Core.Models
         /// Gets or sets variants of sequences alignments.
         /// </summary>
         public List<PairSequence> AlignedSequences { get; set; }
+
+        /// <summary>
+        /// Gets the distance.
+        /// </summary>
+        public double Distance
+        {
+            get
+            {
+                return this.DynamicTable[new Index(this.First.Count, this.Second.Count)].Distance;
+            }
+        }
 
         /// <summary>
         /// Gets the length.

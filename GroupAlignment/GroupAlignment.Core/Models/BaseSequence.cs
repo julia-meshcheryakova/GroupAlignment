@@ -19,10 +19,17 @@ namespace GroupAlignment.Core.Models
         /// Initializes a new instance of the <see cref="BaseSequence"/> class.
         /// </summary>
         /// <param name="list">The list of nucleotides.</param>
-        public BaseSequence(IEnumerable<Nucleotide> list)
+        /// <param name="id">The id.</param>
+        public BaseSequence(IEnumerable<Nucleotide> list, int? id = null)
         {
             this.AddRange(list);
+            this.Id = id;
         }
+
+        /// <summary>
+        /// Gets or sets the identifier of sequence
+        /// </summary>
+        public int? Id { get; set; }
 
         /// <summary>
         /// The indexer override.

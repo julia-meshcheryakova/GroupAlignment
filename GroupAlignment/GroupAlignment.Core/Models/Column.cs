@@ -11,20 +11,25 @@ namespace GroupAlignment.Core.Models
     public class Column : BaseColumn
     {
         /// <summary>
-        /// Gets statistics for column.
+        /// Gets profile for column.
         /// </summary>
         /// <returns>The statistics dictionary.</returns>
-        public Dictionary<Nucleotide, double> Statistics()
+        public ProfileItem ColumnProfile
         {
-            var count = this.Count;
-            if (count == 0)
+            get
             {
-                return new Dictionary<Nucleotide, double>();
-            }
+                var count = this.Count;
+                if (count == 0)
+                {
+                    return new ProfileItem();
+                }
 
-            var nucleotideList = Enum.GetValues(typeof(Nucleotide)).Cast<Nucleotide>().ToList();
-            var statistics = Enum.GetValues(typeof(Nucleotide)).Cast<Nucleotide>().ToDictionary(e => e, e => (double)nucleotideList.Count(n => n == e) / count);
-            return statistics;
+                var nucleotideList = Enum.GetValues(typeof(Nucleotide)).Cast<Nucleotide>().ToList();
+                var columnProfile = Enum.GetValues(typeof(Nucleotide))
+                                     .Cast<Nucleotide>()
+                                     .ToDictionary(e => e, e => (double)nucleotideList.Count(n => n == e) / count);
+                return new ProfileItem(columnProfile);
+            }
         }
     }
 }

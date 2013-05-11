@@ -1,7 +1,7 @@
 ﻿
-namespace GroupAlignment.Algorithms.Tests.EstimatorsTests
+namespace GroupAlignment.Core.Tests.EstimatorsTests
 {
-    using GroupAlignment.Algorithms.Estimators;
+    using GroupAlignment.Core.Estimators;
     using GroupAlignment.Core.Models;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -15,7 +15,7 @@ namespace GroupAlignment.Algorithms.Tests.EstimatorsTests
         {
             get
             {
-                return this.simpleDistanceEstimator ?? new SimpleDistanceEstimator();
+                return this.simpleDistanceEstimator ?? (this.simpleDistanceEstimator = new SimpleDistanceEstimator());
             }
         }
 
