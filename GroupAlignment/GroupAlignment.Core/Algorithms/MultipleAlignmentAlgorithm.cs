@@ -79,12 +79,12 @@ namespace GroupAlignment.Core.Algorithms
                 if (pred.Item1.Equals(cur.Item1))
                 {
                     var secondSequence = alignment.Second.AlignedSequences[table.Second.Id];
-                    sequence.Add(new Column(Column.GetClearColumn(table.First.Count), secondSequence[cur.Item2]));
+                    sequence.Add(new Column(Column.GetClearColumn(alignment.First.Sequences.Count), secondSequence[cur.Item2]));
                 }
                 else if (pred.Item2.Equals(cur.Item2))
                 {
                     var firstSequence = alignment.First.AlignedSequences[table.First.Id];
-                    sequence.Add(new Column(firstSequence[cur.Item1], Column.GetClearColumn(table.Second.Count)));
+                    sequence.Add(new Column(firstSequence[cur.Item1], Column.GetClearColumn(alignment.Second.Sequences.Count)));
                 }
                 else
                 {

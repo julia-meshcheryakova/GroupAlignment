@@ -19,6 +19,33 @@ namespace GroupAlignment.Core.Models.Group
         /// <summary>
         /// Initializes a new instance of the <see cref="MultipleSequence"/> class.
         /// </summary>
+        /// <param name="sequence">The sequence.</param>
+        public MultipleSequence(IEnumerable<Nucleotide> sequence)
+        {
+            foreach (var n in sequence)
+            {
+                this.Add(new Column(new List<Nucleotide> { n }));
+            }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MultipleSequence"/> class.
+        /// </summary>
+        /// <param name="sequences">The sequence.</param>
+        public MultipleSequence(IEnumerable<Sequence> sequences)
+        {
+            var list = sequences.ToList();
+            var maxLength = list.Max(s => s.Count);
+            var completedSequences = list.Select(s => Sequence.Complete(s, maxLength)).ToList();
+            for (var i = 0; i < maxLength; ++i)
+            {
+                this.Add(new Column(completedSequences.Select(s => s[i])));
+            }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MultipleSequence"/> class.
+        /// </summary>
         /// <param name="list">The list of nucleotide pairs.</param>
         public MultipleSequence(IEnumerable<Column> list)
         {
@@ -41,7 +68,7 @@ namespace GroupAlignment.Core.Models.Group
 
                 // TODO: check if that is the same
                 var profile2 = this.Select(column => column.ColumnProfile).ToList();
-                var useLinq = profile.Equals(profile2);
+                var useLinq = profile.SequenceEqual(profile2);
 
                 return profile;
             }

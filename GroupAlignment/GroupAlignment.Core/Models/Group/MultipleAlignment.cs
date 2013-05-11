@@ -4,8 +4,6 @@ namespace GroupAlignment.Core.Models.Group
     using System.Collections.Generic;
     using System.Linq;
 
-    using global::GroupAlignment.Core.Extensions;
-
     /// <summary>
     /// Alignment - list of the sequences
     /// </summary>
@@ -16,6 +14,23 @@ namespace GroupAlignment.Core.Models.Group
         /// </summary>
         public MultipleAlignment()
         {
+            this.Sequences = new List<Sequence>();
+            this.First = null;
+            this.Second = null;
+            this.AlignedSequences = new List<MultipleSequence>();
+            this.ProfilesTable = new ProfilesTable();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MultipleAlignment"/> class.
+        /// </summary>
+        /// <param name="sequences">The sequences list.</param>
+        public MultipleAlignment(IEnumerable<Sequence> sequences)
+            : this()
+        {
+            this.Sequences = sequences.ToList();
+            var multipleSequence = new MultipleSequence(this.Sequences);
+            this.AlignedSequences.AddRange(new[] { multipleSequence });
         }
 
         /// <summary>
@@ -24,12 +39,26 @@ namespace GroupAlignment.Core.Models.Group
         /// <param name="sequences">The sequences list.</param>
         /// <param name="parent1">The parent 1.</param>
         /// <param name="parent2">The parent 2.</param>
-        public MultipleAlignment(IEnumerable<Sequence> sequences, MultipleAlignment parent1 = null, MultipleAlignment parent2 = null)
+        public MultipleAlignment(IEnumerable<Sequence> sequences, MultipleAlignment parent1, MultipleAlignment parent2)
+            : this()
         {
             this.Sequences = sequences.ToList();
             this.First = parent1;
             this.Second = parent2;
-            this.AlignedSequences = new List<MultipleSequence>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MultipleAlignment"/> class.
+        /// </summary>
+        /// <param name="parent1">The parent 1.</param>
+        /// <param name="parent2">The parent 2.</param>
+        public MultipleAlignment(MultipleAlignment parent1, MultipleAlignment parent2)
+            : this()
+        {
+            this.First = parent1;
+            this.Second = parent2;
+            this.Sequences.AddRange(parent1.Sequences);
+            this.Sequences.AddRange(parent2.Sequences);
         }
 
         /// <summary>

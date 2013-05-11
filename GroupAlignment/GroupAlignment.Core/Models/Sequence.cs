@@ -32,19 +32,6 @@ namespace GroupAlignment.Core.Models
         public int? Id { get; set; }
 
         /// <summary>
-        /// The indexer override.
-        /// </summary>
-        /// <param name="index">The index.</param>
-        /// <returns>The <see cref="Nucleotide"/>.</returns>
-        public new Nucleotide this[int index]
-        {
-            get
-            {
-                return index > this.Count || index <= 0 ? Nucleotide._ : base[index - 1];
-            }
-        }
-
-        /// <summary>
         /// Gets or sets the name of the chain
         /// </summary>
         public string Name { get; set; }
@@ -58,6 +45,19 @@ namespace GroupAlignment.Core.Models
         /// Gets or sets the Organism record ID
         /// </summary>
         public int? OrganismId { get; set; }
+
+        /// <summary>
+        /// The indexer override.
+        /// </summary>
+        /// <param name="index">The index.</param>
+        /// <returns>The <see cref="Nucleotide"/>.</returns>
+        public new Nucleotide this[int index]
+        {
+            get
+            {
+                return index > this.Count || index <= 0 ? Nucleotide._ : base[index - 1];
+            }
+        }
 
         /// <summary>
         /// Completes sequence to the certain length
