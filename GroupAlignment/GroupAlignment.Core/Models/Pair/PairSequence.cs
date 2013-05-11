@@ -23,18 +23,5 @@ namespace GroupAlignment.Core.Models.Pair
         {
             this.AddRange(list);
         }
-
-        /// <summary>
-        /// The indexer override.
-        /// </summary>
-        /// <param name="index">The index.</param>
-        /// <returns>The <see cref="Nucleotide"/>.</returns>
-        public new NucleotidePair this[int index]
-        {
-            get
-            {
-                return index > this.Count || index <= 0 ? new NucleotidePair(Nucleotide._, Nucleotide._) : base[index - 1];
-            }
-        }
     }
 }

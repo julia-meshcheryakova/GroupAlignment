@@ -40,6 +40,7 @@
                 };
             var multipleAlignment1 = new MultipleAlignment(new[] { sequence1 });
             var multipleAlignment2 = new MultipleAlignment(new[] { sequence2 });
+            var asdf = multipleAlignment1.Profiles;
             var newMultipleAlignment = new MultipleAlignment(multipleAlignment1, multipleAlignment2);
             var algorithm = new MultipleAlignmentAlgorithm(new OperationDistanceEstimator(4, 2, 0, 1));
             algorithm.FillAlignedSequences(newMultipleAlignment);

@@ -28,7 +28,7 @@ namespace GroupAlignment.Core.Models.Group
             var list = sequences.ToList();
             if (generateIds)
             {
-                for (var i = 0; i < list.Count(); ++i)
+                for (var i = 0; i < list.Count(); i++)
                 {
                     list[i].Id = i + 1;
                 }
@@ -86,19 +86,6 @@ namespace GroupAlignment.Core.Models.Group
             get
             {
                 return this.First().Count;
-            }
-        }
-
-        /// <summary>
-        /// The indexer override.
-        /// </summary>
-        /// <param name="index">The index.</param>
-        /// <returns>The <see cref="Nucleotide"/>.</returns>
-        public new Sequence this[int index]
-        {
-            get
-            {
-                return index > this.Count || index <= 0 ? null : base[index - 1];
             }
         }
     }

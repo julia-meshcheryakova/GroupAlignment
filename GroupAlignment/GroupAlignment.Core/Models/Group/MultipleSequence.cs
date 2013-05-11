@@ -37,7 +37,7 @@ namespace GroupAlignment.Core.Models.Group
             var list = sequences.ToList();
             var maxLength = list.Max(s => s.Count);
             var completedSequences = list.Select(s => Sequence.Complete(s, maxLength)).ToList();
-            for (var i = 0; i < maxLength; ++i)
+            for (var i = 0; i < maxLength; i++)
             {
                 this.Add(new Column(completedSequences.Select(s => s[i])));
             }
@@ -60,7 +60,7 @@ namespace GroupAlignment.Core.Models.Group
             get
             {
                 var profile = new Profile();
-                for (var i = 1; i <= this.Count; ++i)
+                for (var i = 0; i < this.Count; i++)
                 {
                     var column = this[i];
                     profile.Add(column.ColumnProfile);
@@ -71,19 +71,6 @@ namespace GroupAlignment.Core.Models.Group
                 var useLinq = profile.SequenceEqual(profile2);
 
                 return profile;
-            }
-        }
-
-        /// <summary>
-        /// The indexer override.
-        /// </summary>
-        /// <param name="index">The index.</param>
-        /// <returns>The <see cref="Nucleotide"/>.</returns>
-        public new Column this[int index]
-        {
-            get
-            {
-                return index > this.Count || index <= 0 ? null : base[index - 1];
             }
         }
     }

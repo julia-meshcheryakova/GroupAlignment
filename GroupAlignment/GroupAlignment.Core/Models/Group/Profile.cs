@@ -16,19 +16,6 @@ namespace GroupAlignment.Core.Models.Group
         public int Id { get; set; }
 
         /// <summary>
-        /// The indexer override.
-        /// </summary>
-        /// <param name="index">The index.</param>
-        /// <returns>The <see cref="Nucleotide"/>.</returns>
-        public new ProfileItem this[int index]
-        {
-            get
-            {
-                return index > this.Count || index <= 0 ? null : base[index - 1];
-            }
-        }
-
-        /// <summary>
         /// The equals.
         /// </summary>
         /// <param name="obj">The object.</param>

@@ -54,7 +54,7 @@ namespace GroupAlignment.Core.Algorithms
 
             var optimalDynamicTables =
                 alignment.ProfilesTable.Where(
-                    p => p.Value[new Index(p.Value.First.Count, p.Value.Second.Count)].Distance.AreEqual(minDistance)).Select(item => item.Value).ToList();
+                    p => p.Value[new Index(p.Value.First.Count, p.Value.Second.Count)].Distance.IsEqualTo(minDistance)).Select(item => item.Value).ToList();
 
             return (from table in optimalDynamicTables
                     let ways = this.GenerateGraphWays(table)
@@ -72,25 +72,27 @@ namespace GroupAlignment.Core.Algorithms
         public MultipleSequence GenerateAlignedSequence(MultipleAlignment alignment, ProfileTableItem table, List<Index> way)
         {
             var sequence = new MultipleSequence();
-            for (var i = 1; i < way.Count; ++i)
+            for (var i = 1; i < way.Count; i++)
             {
                 var pred = way[i - 1];
                 var cur = way[i];
+                var ii = cur.Item1 - 1; // in sequence
+                var jj = cur.Item2 - 1; // in sequence
                 if (pred.Item1.Equals(cur.Item1))
                 {
                     var secondSequence = alignment.Second.AlignedSequences[table.Second.Id];
-                    sequence.Add(new Column(Column.GetClearColumn(alignment.First.Sequences.Count), secondSequence[cur.Item2]));
+                    sequence.Add(new Column(Column.GetClearColumn(alignment.First.Sequences.Count), secondSequence[jj]));
                 }
                 else if (pred.Item2.Equals(cur.Item2))
                 {
                     var firstSequence = alignment.First.AlignedSequences[table.First.Id];
-                    sequence.Add(new Column(firstSequence[cur.Item1], Column.GetClearColumn(alignment.Second.Sequences.Count)));
+                    sequence.Add(new Column(firstSequence[ii], Column.GetClearColumn(alignment.Second.Sequences.Count)));
                 }
                 else
                 {
                     var firstSequence = alignment.First.AlignedSequences[table.First.Id];
                     var secondSequence = alignment.Second.AlignedSequences[table.Second.Id];
-                    sequence.Add(new Column(firstSequence[cur.Item1], secondSequence[cur.Item2]));
+                    sequence.Add(new Column(firstSequence[ii], secondSequence[jj]));
                 }
             }
 
@@ -115,12 +117,12 @@ namespace GroupAlignment.Core.Algorithms
                     var pair = way.First();
                     var predecessors = dynamicTable[pair].Predecessors;
                     var newWays = new List<List<Index>> { way };
-                    for (var i = 1; i < predecessors.Count; ++i)
+                    for (var i = 1; i < predecessors.Count; i++)
                     {
                         newWays.Add(new List<Index>(way));
                     }
 
-                    for (var i = 0; i < predecessors.Count; ++i)
+                    for (var i = 0; i < predecessors.Count; i++)
                     {
                         newWays[i].Insert(0, predecessors[i]);
                     }
@@ -143,7 +145,7 @@ namespace GroupAlignment.Core.Algorithms
             var firstProfiles = alignment.First.Profiles;
             var secondProfiles = alignment.Second.Profiles;
             alignment.ProfilesTable = new ProfilesTable();
-            for (var i = 0; i < firstProfiles.Count; ++i)
+            for (var i = 0; i < firstProfiles.Count; i++)
             {
                 for (var j = 0; j < secondProfiles.Count; ++j)
                 {
@@ -170,13 +172,15 @@ namespace GroupAlignment.Core.Algorithms
             // first row set
             for (var i = 1; i < length2; i++)
             {
-                dynamicTable.Add(new Index(0, i), new DynamicTableItem(i * this.Estimator.ProfileItemNucleotideDistance(second[i], Nucleotide._), new List<Index> { new Index(0, i - 1) }));
+                var ii = i - 1; // in sequence
+                dynamicTable.Add(new Index(0, i), new DynamicTableItem(i * this.Estimator.ProfileItemNucleotideDistance(second[ii], Nucleotide._), new List<Index> { new Index(0, i - 1) }));
             }
 
             // first column set
             for (var i = 1; i < length1; i++)
             {
-                dynamicTable.Add(new Index(i, 0), new DynamicTableItem(i * this.Estimator.ProfileItemNucleotideDistance(first[i], Nucleotide._), new List<Index> { new Index(i - 1, 0) }));
+                var ii = i - 1; // in sequence
+                dynamicTable.Add(new Index(i, 0), new DynamicTableItem(i * this.Estimator.ProfileItemNucleotideDistance(first[ii], Nucleotide._), new List<Index> { new Index(i - 1, 0) }));
             }
 
             for (var i = 1; i < length1; i++)
@@ -186,18 +190,20 @@ namespace GroupAlignment.Core.Algorithms
                     var pj = new Index(i - 1, j); // same column
                     var pi = new Index(i, j - 1); // same row
                     var pij = new Index(i - 1, j - 1);
+                    var ii = i - 1; // in sequence
+                    var jj = j - 1; // in sequence
                     var estimates = new Dictionary<Index, double>
                         {
-                            { pj, dynamicTable[pj].Distance + this.Estimator.ProfileItemNucleotideDistance(first[i], Nucleotide._) },
-                            { pi, dynamicTable[pi].Distance + this.Estimator.ProfileItemNucleotideDistance(Nucleotide._, second[j]) },
+                            { pj, dynamicTable[pj].Distance + this.Estimator.ProfileItemNucleotideDistance(first[ii], Nucleotide._) },
+                            { pi, dynamicTable[pi].Distance + this.Estimator.ProfileItemNucleotideDistance(Nucleotide._, second[jj]) },
                             {
                                 pij,
-                                dynamicTable[pij].Distance + this.Estimator.ProfileItemsDistance(first[i], second[j])
+                                dynamicTable[pij].Distance + this.Estimator.ProfileItemsDistance(first[ii], second[jj])
                             }
                         };
 
                     var d = estimates.Values.Min();
-                    var dynamicTableItem = new DynamicTableItem(d, estimates.Where(e => e.Value.AreEqual(d)).Select(e => e.Key).ToList());
+                    var dynamicTableItem = new DynamicTableItem(d, estimates.Where(e => e.Value.IsEqualTo(d)).Select(e => e.Key).ToList());
                     dynamicTable.Add(new Index(i, j), dynamicTableItem);
                 }
             }

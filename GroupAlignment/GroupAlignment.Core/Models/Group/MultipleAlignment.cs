@@ -94,7 +94,7 @@ namespace GroupAlignment.Core.Models.Group
             get
             {
                 var profiles = new List<Profile>();
-                for (var i = 0; i < this.AlignedSequences.Count; ++i)
+                for (var i = 0; i < this.AlignedSequences.Count; i++)
                 {
                     var profile = this.AlignedSequences[i].Profile;
                     profile.Id = i;

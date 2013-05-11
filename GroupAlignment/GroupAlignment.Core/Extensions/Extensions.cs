@@ -72,10 +72,10 @@ namespace GroupAlignment.Core.Extensions
         /// <param name="value1">The value 1.</param>
         /// <param name="value2">The value 2.</param>
         /// <returns>The <see cref="bool"/>.</returns>
-        public static bool AreEqual(this double value1, double value2)
+        public static bool IsEqualTo(this double value1, double value2)
         {
-            var difference = .000001;
-            return Math.Abs(value1 - value2) <= difference;
+            const double Difference = .000001;
+            return Math.Abs(value1 - value2) <= Difference;
         }
     }
 }
