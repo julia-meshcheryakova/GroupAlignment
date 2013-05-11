@@ -84,11 +84,11 @@ namespace GroupAlignment.Core.Estimators
         /// <param name="sequence1">The sequence 1.</param>
         /// <param name="sequence2">The sequence 2.</param>
         /// <returns>Distance estimate</returns>
-        public override double Distance(BaseSequence sequence1, BaseSequence sequence2)
+        public override double Distance(Sequence sequence1, Sequence sequence2)
         {
             var maxLength = Math.Max(sequence1.Count, sequence2.Count);
-            sequence1 = BaseSequence.Complete(sequence1, maxLength);
-            sequence2 = BaseSequence.Complete(sequence2, maxLength);
+            sequence1 = Sequence.Complete(sequence1, maxLength);
+            sequence2 = Sequence.Complete(sequence2, maxLength);
             var pairSequence = this.ToPair(sequence1, sequence2, (x, y) => new NucleotidePair(x, y));
             var res = pairSequence.Sum(pair => this.NucleotideDistance(pair.First, pair.Second));
             return res;

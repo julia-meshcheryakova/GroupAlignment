@@ -49,9 +49,11 @@
     <Compile Include="Estimators\SimpleDistanceEstimator.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Extensions\Index.cs" />
+    <Compile Include="Models\DynamicTable.cs" />
+    <Compile Include="Models\Group\ProfileTableItem.cs" />
+    <Compile Include="Models\Group\ProfilesTable.cs" />
     <Compile Include="Models\Group\Profile.cs" />
     <Compile Include="Models\Group\GroupAlignment.cs" />
-    <Compile Include="Models\BaseColumn.cs" />
     <Compile Include="Models\Column.cs" />
     <Compile Include="Models\Group\MultipleSequence.cs" />
     <Compile Include="Models\Group\MultipleAlignment.cs" />
@@ -60,7 +62,6 @@
     <Compile Include="Models\Pair\NucleotidePair.cs" />
     <Compile Include="Models\Pair\PairAlignment.cs" />
     <Compile Include="Models\Nucleotide.cs" />
-    <Compile Include="Models\BaseSequence.cs" />
     <Compile Include="Models\Group\ProfileItem.cs" />
     <Compile Include="Models\Sequence.cs" />
     <Compile Include="Algorithms\PairAlignmentAlgorithm.cs" />

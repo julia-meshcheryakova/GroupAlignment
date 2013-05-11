@@ -24,19 +24,18 @@ namespace GroupAlignment.Core.Models.Group
         /// <param name="sequences">The sequences list.</param>
         /// <param name="parent1">The parent 1.</param>
         /// <param name="parent2">The parent 2.</param>
-        public MultipleAlignment(IEnumerable<BaseSequence> sequences, MultipleAlignment parent1 = null, MultipleAlignment parent2 = null)
+        public MultipleAlignment(IEnumerable<Sequence> sequences, MultipleAlignment parent1 = null, MultipleAlignment parent2 = null)
         {
             this.Sequences = sequences.ToList();
             this.First = parent1;
             this.Second = parent2;
-            this.Ways = new List<List<Index>>();
             this.AlignedSequences = new List<MultipleSequence>();
         }
 
         /// <summary>
         /// Gets or sets first original sequence.
         /// </summary>
-        public List<BaseSequence> Sequences { get; set; }
+        public List<Sequence> Sequences { get; set; }
 
         /// <summary>
         /// Gets or sets the parent 1.
@@ -49,18 +48,32 @@ namespace GroupAlignment.Core.Models.Group
         public MultipleAlignment Second { get; set; }
 
         /// <summary>
-        /// Gets or sets the distance dynamic table for pair of multiple alignments (profiles alignment).
+        /// Gets or sets the profiles alignments table for pair of multiple alignments (profiles alignment).
         /// </summary>
-        public Dictionary<Index, DynamicTableItem> DynamicTable { get; set; }
-
-        /// <summary>
-        /// Gets or sets ways of alignment if dynamic table.
-        /// </summary>
-        public List<List<Index>> Ways { get; set; }
+        public ProfilesTable ProfilesTable { get; set; }
 
         /// <summary>
         /// Gets or sets variants of sequences alignments.
         /// </summary>
         public List<MultipleSequence> AlignedSequences { get; set; }
+
+        /// <summary>
+        /// Gets the profiles for aligned sequences.
+        /// </summary>
+        public List<Profile> Profiles
+        {
+            get
+            {
+                var profiles = new List<Profile>();
+                for (var i = 0; i < this.AlignedSequences.Count; ++i)
+                {
+                    var profile = this.AlignedSequences[i].Profile;
+                    profile.Id = i;
+                    profiles.Add(profile);
+                }
+
+                return profiles;
+            }
+        }
     }
 }

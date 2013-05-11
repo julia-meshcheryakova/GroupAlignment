@@ -9,7 +9,7 @@ namespace GroupAlignment.Core.Models.Group
     /// <summary>
     /// Alignment - list of the sequences
     /// </summary>
-    public class GroupAlignment : List<BaseSequence>
+    public class GroupAlignment : List<Sequence>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GroupAlignment"/> class.
@@ -23,7 +23,7 @@ namespace GroupAlignment.Core.Models.Group
         /// </summary>
         /// <param name="sequences">The list of nucleotide sequences.</param>
         /// <param name="generateIds">Flag if id for sequences need to be generated</param>
-        public GroupAlignment(IEnumerable<BaseSequence> sequences, bool generateIds = false)
+        public GroupAlignment(IEnumerable<Sequence> sequences, bool generateIds = false)
         {
             var list = sequences.ToList();
             if (generateIds)
@@ -94,7 +94,7 @@ namespace GroupAlignment.Core.Models.Group
         /// </summary>
         /// <param name="index">The index.</param>
         /// <returns>The <see cref="Nucleotide"/>.</returns>
-        public new BaseSequence this[int index]
+        public new Sequence this[int index]
         {
             get
             {

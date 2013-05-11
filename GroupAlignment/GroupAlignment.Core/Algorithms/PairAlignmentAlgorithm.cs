@@ -139,11 +139,11 @@ namespace GroupAlignment.Core.Algorithms
         /// </summary>
         /// <param name="alignment">The alignment.</param>
         /// <returns>The dynamic table.</returns>
-        private Dictionary<Index, DynamicTableItem> GenerateDynamicTable(PairAlignment alignment)
+        private DynamicTable GenerateDynamicTable(PairAlignment alignment)
         {
             var length1 = alignment.First.Count + 1;
             var length2 = alignment.Second.Count + 1;
-            var dynamicTable = new Dictionary<Index, DynamicTableItem>
+            var dynamicTable = new DynamicTable
                 {
                     { new Index(0, 0), new DynamicTableItem(0, new List<Index>()) }
                 };

@@ -1,4 +1,5 @@
-﻿namespace GroupAlignment.Core.Extensions
+﻿
+namespace GroupAlignment.Core.Extensions
 {
     using System;
 

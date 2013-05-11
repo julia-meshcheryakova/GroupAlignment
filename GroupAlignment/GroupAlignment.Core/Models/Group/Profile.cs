@@ -9,6 +9,11 @@ namespace GroupAlignment.Core.Models.Group
     public class Profile : List<ProfileItem>
     {
         /// <summary>
+        /// Gets or sets the id.
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
         /// The indexer override.
         /// </summary>
         /// <param name="index">The index.</param>

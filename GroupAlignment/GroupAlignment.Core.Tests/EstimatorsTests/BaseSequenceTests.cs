@@ -6,12 +6,12 @@ namespace GroupAlignment.Core.Tests.EstimatorsTests
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class BaseSequenceTests
+    public class SequenceTests
     {
         [TestMethod]
         public void CompleteSequenceTest()
         {
-            var sequence = new BaseSequence
+            var sequence = new Sequence
                 {
                     Nucleotide.A,
                     Nucleotide.C,
@@ -19,7 +19,7 @@ namespace GroupAlignment.Core.Tests.EstimatorsTests
                     Nucleotide.G,
                     Nucleotide.N
                 };
-            var sequenceCompleted = new BaseSequence
+            var sequenceCompleted = new Sequence
                 {
                     Nucleotide.A,
                     Nucleotide.C,
@@ -30,14 +30,14 @@ namespace GroupAlignment.Core.Tests.EstimatorsTests
                     Nucleotide._,
                     Nucleotide._
                 };
-            sequence = BaseSequence.Complete(sequence, 8);
+            sequence = Sequence.Complete(sequence, 8);
             CollectionAssert.AreEqual(sequence, sequenceCompleted);
         }
 
         [TestMethod]
         public void CloneSequenceTest()
         {
-            var sequence = new BaseSequence
+            var sequence = new Sequence
                 {
                     Nucleotide.A,
                     Nucleotide.C,
@@ -45,7 +45,7 @@ namespace GroupAlignment.Core.Tests.EstimatorsTests
                     Nucleotide.G,
                     Nucleotide.N
                 };
-            var sequenceCopy = BaseSequence.Complete(sequence, 8);
+            var sequenceCopy = Sequence.Complete(sequence, 8);
             CollectionAssert.AreNotEqual(sequence, sequenceCopy);
         }
     }

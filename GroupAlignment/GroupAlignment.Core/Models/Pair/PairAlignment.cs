@@ -24,29 +24,29 @@ namespace GroupAlignment.Core.Models
         /// </summary>
         /// <param name="sequence1">The first sequence.</param>
         /// <param name="sequence2">The second sequence.</param>
-        public PairAlignment(BaseSequence sequence1, BaseSequence sequence2)
+        public PairAlignment(Sequence sequence1, Sequence sequence2)
         {
             this.First = sequence1;
             this.Second = sequence2;
             this.Ways = new List<List<Index>>();
             this.AlignedSequences = new List<PairSequence>();
-            this.DynamicTable = new Dictionary<Index, DynamicTableItem>();
+            this.DynamicTable = new DynamicTable();
         }
 
         /// <summary>
         /// Gets or sets first original sequence.
         /// </summary>
-        public BaseSequence First { get; set; }
+        public Sequence First { get; set; }
 
         /// <summary>
         /// Gets or sets first original sequence.
         /// </summary>
-        public BaseSequence Second { get; set; }
+        public Sequence Second { get; set; }
 
         /// <summary>
         /// Gets or sets the distance dynamic table.
         /// </summary>
-        public Dictionary<Index, DynamicTableItem> DynamicTable { get; set; }
+        public DynamicTable DynamicTable { get; set; }
 
         /// <summary>
         /// Gets or sets ways of alignment if dynamic table.

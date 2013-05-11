@@ -19,7 +19,7 @@ namespace GroupAlignment.Core.Estimators
         /// <param name="sequence1">The sequence 1.</param>
         /// <param name="sequence2">The sequence 2.</param>
         /// <returns>Distance estimate</returns>
-        public abstract double Distance(BaseSequence sequence1, BaseSequence sequence2);
+        public abstract double Distance(Sequence sequence1, Sequence sequence2);
 
         /// <summary>
         /// Gets distance estimate for 2 sequences
