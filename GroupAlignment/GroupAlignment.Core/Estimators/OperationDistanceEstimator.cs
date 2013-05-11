@@ -84,7 +84,7 @@ namespace GroupAlignment.Core.Estimators
         /// <param name="sequence1">The sequence 1.</param>
         /// <param name="sequence2">The sequence 2.</param>
         /// <returns>Distance estimate</returns>
-        public override int Distance(BaseSequence sequence1, BaseSequence sequence2)
+        public override double Distance(BaseSequence sequence1, BaseSequence sequence2)
         {
             var maxLength = Math.Max(sequence1.Count, sequence2.Count);
             sequence1 = BaseSequence.Complete(sequence1, maxLength);
@@ -110,7 +110,7 @@ namespace GroupAlignment.Core.Estimators
         /// <param name="n1">The nucleotide 1.</param>
         /// <param name="n2">The nucleotide 2.</param>
         /// <returns>Distance estimate</returns>
-        public override int NucleotideDistance(Nucleotide n1, Nucleotide n2)
+        public override double NucleotideDistance(Nucleotide n1, Nucleotide n2)
         {
             return this.DistanceMap[new NucleotidePair(n1, n2)];
         }
@@ -120,7 +120,7 @@ namespace GroupAlignment.Core.Estimators
         /// </summary>
         /// <param name="pair">The nucleotide pair.</param>
         /// <returns>Distance estimate</returns>
-        public override int NucleotideDistance(NucleotidePair pair)
+        public override double NucleotideDistance(NucleotidePair pair)
         {
             return this.DistanceMap[pair];
         }

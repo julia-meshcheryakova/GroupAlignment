@@ -42,12 +42,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithms\MultipleAlignmentAlgorithm.cs" />
     <Compile Include="Algorithms\GroupAlignmentAlgorithm.cs" />
     <Compile Include="Estimators\AbstractDistanceEstimator.cs" />
     <Compile Include="Estimators\OperationDistanceEstimator.cs" />
     <Compile Include="Estimators\SimpleDistanceEstimator.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Extensions\Index.cs" />
+    <Compile Include="Models\Group\Profile.cs" />
     <Compile Include="Models\Group\GroupAlignment.cs" />
     <Compile Include="Models\BaseColumn.cs" />
     <Compile Include="Models\Column.cs" />
@@ -59,7 +61,7 @@
     <Compile Include="Models\Pair\PairAlignment.cs" />
     <Compile Include="Models\Nucleotide.cs" />
     <Compile Include="Models\BaseSequence.cs" />
-    <Compile Include="Models\ProfileItem.cs" />
+    <Compile Include="Models\Group\ProfileItem.cs" />
     <Compile Include="Models\Sequence.cs" />
     <Compile Include="Algorithms\PairAlignmentAlgorithm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

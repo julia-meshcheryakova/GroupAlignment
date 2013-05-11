@@ -2,8 +2,8 @@
 {
     using System;
 
+    using GroupAlignment.Core.Algorithms;
     using GroupAlignment.Core.Estimators;
-    using GroupAlignment.Core.PairAlignmentAlgorithms;
     using GroupAlignment.Core.Models;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;

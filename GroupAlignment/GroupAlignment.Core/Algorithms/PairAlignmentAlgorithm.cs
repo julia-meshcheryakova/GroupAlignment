@@ -1,9 +1,9 @@
 ﻿
-namespace GroupAlignment.Core.PairAlignmentAlgorithms
+namespace GroupAlignment.Core.Algorithms
 {
     using System.Collections.Generic;
     using System.Linq;
-    
+
     using GroupAlignment.Core.Estimators;
     using GroupAlignment.Core.Extensions;
     using GroupAlignment.Core.Models;

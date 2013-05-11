@@ -6,6 +6,7 @@ namespace GroupAlignment.Core.Estimators
     using System.Linq;
 
     using GroupAlignment.Core.Models;
+    using GroupAlignment.Core.Models.Group;
 
     /// <summary>
     /// Distance estimator abstract class
@@ -13,34 +14,70 @@ namespace GroupAlignment.Core.Estimators
     public abstract class AbstractDistanceEstimator
     {
         /// <summary>
-        /// Gets simple distance estimate for 2 sequences
+        /// Gets distance estimate for 2 sequences
         /// </summary>
         /// <param name="sequence1">The sequence 1.</param>
         /// <param name="sequence2">The sequence 2.</param>
         /// <returns>Distance estimate</returns>
-        public abstract int Distance(BaseSequence sequence1, BaseSequence sequence2);
+        public abstract double Distance(BaseSequence sequence1, BaseSequence sequence2);
 
         /// <summary>
-        /// Gets simple distance estimate for 2 sequences
+        /// Gets distance estimate for 2 sequences
         /// </summary>
         /// <param name="pair">The sequence pair.</param>
         /// <returns>Distance estimate</returns>
         public abstract double Distance(PairAlignment pair);
 
         /// <summary>
-        /// Gets simple distance estimate for 2 nucleotides
+        /// Gets distance estimate for 2 nucleotides
         /// </summary>
         /// <param name="n1">The nucleotide 1.</param>
         /// <param name="n2">The nucleotide 2.</param>
         /// <returns>Distance estimate</returns>
-        public abstract int NucleotideDistance(Nucleotide n1, Nucleotide n2);
+        public abstract double NucleotideDistance(Nucleotide n1, Nucleotide n2);
 
         /// <summary>
-        /// Gets simple distance estimate for 2 nucleotides
+        /// Gets distance estimate for 2 nucleotides
         /// </summary>
         /// <param name="pair">The nucleotide pair.</param>
         /// <returns>Distance estimate</returns>
-        public abstract int NucleotideDistance(NucleotidePair pair);
+        public abstract double NucleotideDistance(NucleotidePair pair);
+
+        /// <summary>
+        /// Gets distance estimate for 2 nucleotides
+        /// </summary>
+        /// <param name="profileItem">The profile item.</param>
+        /// <param name="nucleotide">The nucleotide.</param>
+        /// <returns>Distance estimate</returns>
+        public double ProfileItemNucleotideDistance(ProfileItem profileItem, Nucleotide nucleotide)
+        {
+            return profileItem.Sum(n => n.Value * this.NucleotideDistance(n.Key, nucleotide));
+        }
+
+        /// <summary>
+        /// Gets distance estimate for 2 nucleotides
+        /// </summary>
+        /// <param name="nucleotide">The nucleotide.</param>
+        /// <param name="profileItem">The profile item.</param>
+        /// <returns>Distance estimate</returns>
+        public double ProfileItemNucleotideDistance(Nucleotide nucleotide, ProfileItem profileItem)
+        {
+            return profileItem.Sum(n => n.Value * this.NucleotideDistance(n.Key, nucleotide));
+        }
+
+        /// <summary>
+        /// Gets distance estimate for 2 nucleotides
+        /// </summary>
+        /// <param name="profileItem1">The profile item 1.</param>
+        /// <param name="profileItem2">The profile item 2.</param>
+        /// <returns>Distance estimate</returns>
+        public double ProfileItemsDistance(ProfileItem profileItem1, ProfileItem profileItem2)
+        {
+            return
+                (from i1 in profileItem1
+                 from i2 in profileItem2
+                 select i1.Value * i2.Value * this.NucleotideDistance(i1.Key, i2.Key)).Sum();
+        }
         
         /// <summary>
         /// Combines 2 lists to one

@@ -26,13 +26,13 @@ namespace GroupAlignment.Core.Models.Group
         }
 
         /// <summary>
-        /// Gets the profile.
+        /// Gets the profile (enumerated from 1).
         /// </summary>
-        public List<ProfileItem> Profile
+        public Profile Profile
         {
             get
             {
-                var profile = new List<ProfileItem>();
+                var profile = new Profile();
                 for (var i = 1; i <= this.Count; ++i)
                 {
                     var column = this[i];

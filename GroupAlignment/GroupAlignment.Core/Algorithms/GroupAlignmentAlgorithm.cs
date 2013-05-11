@@ -1,9 +1,9 @@
 ﻿
-namespace GroupAlignment.Core.PairAlignmentAlgorithms
+namespace GroupAlignment.Core.Algorithms
 {
     using System.Collections.Generic;
     using System.Linq;
-    
+
     using GroupAlignment.Core.Estimators;
     using GroupAlignment.Core.Extensions;
     using GroupAlignment.Core.Models;
@@ -60,7 +60,7 @@ namespace GroupAlignment.Core.PairAlignmentAlgorithms
                 foreach (var sequence2 in groupAlignment.Where(a => a.Id != sequence.Id && map[new Index(sequence.Id.Value, a.Id.Value)] == null))
                 {
                     var p = new PairAlignment(sequence, sequence2);
-                    PairAlignmentAlgorithm.FillAlignedSequences(p);
+                    this.PairAlignmentAlgorithm.FillAlignedSequences(p);
                     map[new Index(sequence.Id.Value, sequence2.Id.Value)] = p;
                     map[new Index(sequence2.Id.Value, sequence.Id.Value)] = p;
                 }

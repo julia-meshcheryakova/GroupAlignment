@@ -5,6 +5,8 @@ namespace GroupAlignment.Core.Models
     using System.Collections.Generic;
     using System.Linq;
 
+    using GroupAlignment.Core.Models.Group;
+
     /// <summary>
     /// Column - chain of the nucleotides
     /// </summary>
@@ -28,6 +30,8 @@ namespace GroupAlignment.Core.Models
                 var columnProfile = Enum.GetValues(typeof(Nucleotide))
                                      .Cast<Nucleotide>()
                                      .ToDictionary(e => e, e => (double)nucleotideList.Count(n => n == e) / count);
+
+                // return new ProfileItem(columnProfile.Where(p => p.Value > 0));
                 return new ProfileItem(columnProfile);
             }
         }

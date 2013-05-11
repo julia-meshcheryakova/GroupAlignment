@@ -5,6 +5,8 @@ namespace GroupAlignment.Core.Extensions
     using System.Collections.Generic;
     using System.Linq;
 
+    using GroupAlignment.Core.Models;
+
     /// <summary>
     /// The extensions.
     /// </summary>
@@ -39,11 +41,11 @@ namespace GroupAlignment.Core.Extensions
         /// <param name="collection">The collection.</param>
         /// <typeparam name="T">Key type.</typeparam>
         /// <typeparam name="TS">Value type.</typeparam>
-        public static void AddRange<T, TS>(this Dictionary<T, TS> source, Dictionary<T, TS> collection)
+        public static void AddRange<T, TS>(this Dictionary<T, TS> source, IEnumerable<KeyValuePair<T, TS>> collection)
         {
             if (collection == null)
             {
-                collection = new Dictionary<T, TS>();
+                return;
             }
 
             if (source == null)

@@ -1,9 +1,9 @@
 ﻿
-namespace GroupAlignment.Core.Models
+namespace GroupAlignment.Core.Models.Group
 {
     using System.Collections.Generic;
 
-    using GroupAlignment.Core.Extensions;
+    using global::GroupAlignment.Core.Extensions;
 
     /// <summary>
     /// The profile item.
@@ -21,7 +21,7 @@ namespace GroupAlignment.Core.Models
         /// Initializes a new instance of the <see cref="ProfileItem"/> class.
         /// </summary>
         /// <param name="dictionary">The dictionary.</param>
-        public ProfileItem(Dictionary<Nucleotide, double> dictionary)
+        public ProfileItem(IEnumerable<KeyValuePair<Nucleotide, double>> dictionary)
         {
             this.AddRange(dictionary);
         }
