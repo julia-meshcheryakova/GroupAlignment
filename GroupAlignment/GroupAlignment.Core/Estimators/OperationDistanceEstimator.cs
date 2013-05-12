@@ -89,7 +89,7 @@ namespace GroupAlignment.Core.Estimators
             var maxLength = Math.Max(sequence1.Count, sequence2.Count);
             sequence1 = Sequence.Complete(sequence1, maxLength);
             sequence2 = Sequence.Complete(sequence2, maxLength);
-            var pairSequence = this.ToPair(sequence1, sequence2, (x, y) => new NucleotidePair(x, y));
+            var pairSequence = Extensions.ToPair(sequence1, sequence2, (x, y) => new NucleotidePair(x, y));
             var res = pairSequence.Sum(pair => this.NucleotideDistance(pair.First, pair.Second));
             return res;
         }

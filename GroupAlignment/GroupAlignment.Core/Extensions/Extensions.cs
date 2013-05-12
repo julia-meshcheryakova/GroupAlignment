@@ -5,8 +5,6 @@ namespace GroupAlignment.Core.Extensions
     using System.Collections.Generic;
     using System.Linq;
 
-    using GroupAlignment.Core.Models;
-
     /// <summary>
     /// The extensions.
     /// </summary>
@@ -76,6 +74,29 @@ namespace GroupAlignment.Core.Extensions
         {
             const double Difference = .000001;
             return Math.Abs(value1 - value2) <= Difference;
+        }
+
+        /// <summary>
+        /// Combines 2 lists to one
+        /// </summary>
+        /// <param name="first">The first list.</param>
+        /// <param name="second">The second list.</param>
+        /// <param name="selector">The selector.</param>
+        /// <typeparam name="TFirst">First type</typeparam>
+        /// <typeparam name="TSecond">Second type</typeparam>
+        /// <typeparam name="TResult">Result type</typeparam>
+        /// <returns>Pair list</returns>
+        /// <exception cref="Exception">Exception - if length are different</exception>
+        public static IEnumerable<TResult> ToPair<TFirst, TSecond, TResult>(IEnumerable<TFirst> first, IEnumerable<TSecond> second, Func<TFirst, TSecond, TResult> selector)
+        {
+            var list1 = first.ToList();
+            var list2 = second.ToList();
+            if (list1.Count != list2.Count)
+            {
+                throw new Exception();
+            }
+
+            return list1.Select((t, i) => selector.Invoke(t, list2[i]));
         }
     }
 }

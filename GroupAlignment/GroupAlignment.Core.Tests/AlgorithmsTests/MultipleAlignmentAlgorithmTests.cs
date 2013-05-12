@@ -17,33 +17,30 @@
         {
             // AACGCTAG
             // ATCCTAG
-            var sequence1 = new Sequence
-                {
-                    Nucleotide.A,
-                    Nucleotide.A,
-                    Nucleotide.C,
-                    Nucleotide.G,
-                    Nucleotide.C,
-                    Nucleotide.T,
-                    Nucleotide.A,
-                    Nucleotide.G
-                };
-            var sequence2 = new Sequence
-                {
-                    Nucleotide.A,
-                    Nucleotide.T,
-                    Nucleotide.C,
-                    Nucleotide.C,
-                    Nucleotide.T,
-                    Nucleotide.A,
-                    Nucleotide.G
-                };
-            var multipleAlignment1 = new MultipleAlignment(new[] { sequence1 });
-            var multipleAlignment2 = new MultipleAlignment(new[] { sequence2 });
-            var asdf = multipleAlignment1.Profiles;
-            var newMultipleAlignment = new MultipleAlignment(multipleAlignment1, multipleAlignment2);
-            var algorithm = new MultipleAlignmentAlgorithm(new OperationDistanceEstimator(4, 2, 0, 1));
-            algorithm.FillAlignedSequences(newMultipleAlignment);
+            var sequence1 =
+                new Sequence(
+                    new[]
+                        {
+                            Nucleotide.A, Nucleotide.A, Nucleotide.C, Nucleotide.G, Nucleotide.C, Nucleotide.T,
+                            Nucleotide.A, Nucleotide.G
+                        },
+                    1);
+            var sequence2 =
+                new Sequence(
+                    new[]
+                        {
+                            Nucleotide.A, Nucleotide.T, Nucleotide.C, Nucleotide.C, Nucleotide.T, Nucleotide.A,
+                            Nucleotide.G
+                        },
+                    2);
+
+            var estimator = new OperationDistanceEstimator(4, 2, 0, 1);
+            var multipleAlignment1 = new MultipleAlignment(1, new[] { sequence1 }, estimator);
+            var multipleAlignment2 = new MultipleAlignment(2, new[] { sequence2 }, estimator);
+            var newMultipleAlignment = new MultipleAlignment(3, multipleAlignment1, multipleAlignment2);
+            var algorithm = new MultipleAlignmentAlgorithm(estimator);
+            var groupAlgorithm = new GroupAlignmentAlgorithm(estimator);
+            algorithm.FillAlignedSequences(newMultipleAlignment, groupAlgorithm.GeneratePairAlignmentsMap(newMultipleAlignment));
         }
     }
 }

@@ -22,6 +22,7 @@ namespace GroupAlignment.Core.Algorithms
         {
             this.Estimator = estimator;
             this.PairAlignmentAlgorithm = new PairAlignmentAlgorithm(estimator);
+            this.MultipleAlignmentAlgorithm = new MultipleAlignmentAlgorithm(estimator);
         }
 
         /// <summary>
@@ -30,9 +31,107 @@ namespace GroupAlignment.Core.Algorithms
         public AbstractDistanceEstimator Estimator { get; set; }
 
         /// <summary>
-        /// Gets or sets the estimator.
+        /// Gets or sets the pair alignment algorithm.
         /// </summary>
         public PairAlignmentAlgorithm PairAlignmentAlgorithm { get; set; }
+
+        /// <summary>
+        /// Gets or sets the multiple alignment algorithm.
+        /// </summary>
+        public MultipleAlignmentAlgorithm MultipleAlignmentAlgorithm { get; set; }
+
+        /// <summary>
+        /// The condensate process - groups sequences into many multiple alignments.
+        /// </summary>
+        /// <param name="alignment">The group alignment.</param>
+        public void Condensate(GroupAlignment alignment)
+        {
+            this.InitializeCondensateMap(alignment);
+            while (alignment.Groups.Count > 1)
+            {
+                this.CondensateStep(alignment);
+            }
+        }
+
+        /// <summary>
+        /// The generate method.
+        /// </summary>
+        /// <param name="alignment">The pair alignment.</param>
+        public void InitializeGroups(GroupAlignment alignment)
+        {
+            alignment.Groups = alignment.Select(s => new MultipleAlignment(s.Id, new[] { s }, this.Estimator)).ToList();
+            alignment.GroupsCounter = alignment.Groups.Max(g => g.Id) + 1;
+        }
+
+        /// <summary>
+        /// The step of condensate method.
+        /// </summary>
+        /// <param name="alignment">The pair alignment.</param>
+        public void CondensateStep(GroupAlignment alignment)
+        {
+            var newGroup = alignment.CondensateMap.OrderByDescending(item => item.Value.Diameter).First().Value;
+            
+            // ToDo: check if removes. Overwise find by id
+            alignment.Groups.Remove(newGroup.First);
+            alignment.Groups.Remove(newGroup.Second);
+            alignment.Groups.Add(newGroup);
+
+            this.UpdateCondensateMap(alignment, newGroup);
+        }
+
+        /// <summary>
+        /// The dynamic table fill.
+        /// </summary>
+        /// <param name="alignment">The group alignment.</param>
+        public void InitializeCondensateMap(GroupAlignment alignment)
+        {
+            if (!alignment.Groups.Any())
+            {
+                this.InitializeGroups(alignment);
+            }
+
+            var map = new Dictionary<Index, MultipleAlignment>();
+            foreach (var group1 in alignment.Groups)
+            {
+                // except the diagonal elements and filled cells (the table is been filling for symmetrical elements in one step)
+                foreach (var group2 in alignment.Groups.Where(a => a.Id != group1.Id && map[new Index(group1.Id, a.Id)] == null))
+                {
+                    var m = new MultipleAlignment(alignment.GroupsCounter, group1, group2);
+                    alignment.GroupsCounter++;
+                    this.MultipleAlignmentAlgorithm.FillAlignedSequences(m, alignment.PairAlignmentsMap);
+                    map[new Index(group1.Id, group2.Id)] = m;
+                    map[new Index(group2.Id, group1.Id)] = m;
+                }
+            }
+
+            alignment.CondensateMap = map;
+        }
+
+        /// <summary>
+        /// The dynamic table fill.
+        /// </summary>
+        /// <param name="alignment">The group alignment.</param>
+        /// <param name="newGroup">The new group.</param>
+        public void UpdateCondensateMap(GroupAlignment alignment, MultipleAlignment newGroup)
+        {
+            // clean parent elements from condensate map
+            var removed = alignment.CondensateMap.Where(item => item.Key.Item1 == newGroup.First.Id || item.Key.Item2 == newGroup.First.Id ||
+                                                                item.Key.Item1 == newGroup.Second.Id || item.Key.Item2 == newGroup.Second.Id);
+            foreach (var keyValuePair in removed)
+            {
+                alignment.CondensateMap.Remove(keyValuePair.Key);
+            }
+
+            // except the diagonal element
+            foreach (var group1 in alignment.Groups.Where(a => a.Id != newGroup.Id))
+            {
+                var m = new MultipleAlignment(alignment.GroupsCounter, group1, newGroup);
+                alignment.GroupsCounter++;
+                this.MultipleAlignmentAlgorithm.FillAlignedSequences(m, alignment.PairAlignmentsMap);
+                alignment.CondensateMap[new Index(group1.Id, newGroup.Id)] = m;
+                alignment.CondensateMap[new Index(newGroup.Id, group1.Id)] = m;
+            }
+        }
 
         /// <summary>
         /// The generate method.
@@ -49,15 +148,16 @@ namespace GroupAlignment.Core.Algorithms
         /// <summary>
         /// The dynamic table fill.
         /// </summary>
-        /// <param name="groupAlignment">The group alignment.</param>
+        /// <param name="sequences">The group alignment.</param>
         /// <returns>The dynamic table.</returns>
-        private Dictionary<Index, PairAlignment> GeneratePairAlignmentsMap(GroupAlignment groupAlignment)
+        public Dictionary<Index, PairAlignment> GeneratePairAlignmentsMap(IEnumerable<Sequence> sequences)
         {
             var map = new Dictionary<Index, PairAlignment>();
-            foreach (var sequence in groupAlignment)
+            var list = sequences.ToList();
+            foreach (var sequence in list)
             {
                 // except the diagonal elements and filled cells (the table is been filling for symmetrical elements in one step)
-                foreach (var sequence2 in groupAlignment.Where(a => a.Id != sequence.Id && map[new Index(sequence.Id.Value, a.Id.Value)] == null))
+                foreach (var sequence2 in list.Where(a => a.Id != sequence.Id && !map.ContainsKey(new Index(sequence.Id.Value, a.Id.Value))))
                 {
                     var p = new PairAlignment(sequence, sequence2);
                     this.PairAlignmentAlgorithm.FillAlignedSequences(p);

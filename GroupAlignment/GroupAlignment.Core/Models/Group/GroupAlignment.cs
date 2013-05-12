@@ -38,9 +38,19 @@ namespace GroupAlignment.Core.Models.Group
         }
 
         /// <summary>
+        /// Gets or sets the groups counter.
+        /// </summary>
+        public int GroupsCounter { get; set; }
+
+        /// <summary>
         /// Gets or sets the pair alignments table.
         /// </summary>
         public Dictionary<Index, PairAlignment> PairAlignmentsMap { get; set; }
+
+        /// <summary>
+        /// Gets or sets the multiple alignments condensate map.
+        /// </summary>
+        public Dictionary<Index, MultipleAlignment> CondensateMap { get; set; }
 
         /// <summary>
         /// Gets or sets the min distance.
@@ -67,11 +77,6 @@ namespace GroupAlignment.Core.Models.Group
                 return (this.MinBound + this.MaxBound) / 2.0;
             }
         }
-
-        /// <summary>
-        /// Gets or sets the pair alignments tree.
-        /// </summary>
-        public List<Index> MinDistanceGraph { get; set; }
 
         /// <summary>
         /// Gets or sets aligned sequences.

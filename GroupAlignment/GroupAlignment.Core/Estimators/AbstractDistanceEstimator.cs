@@ -5,6 +5,7 @@ namespace GroupAlignment.Core.Estimators
     using System.Collections.Generic;
     using System.Linq;
 
+    using GroupAlignment.Core.Extensions;
     using GroupAlignment.Core.Models;
     using GroupAlignment.Core.Models.Group;
 
@@ -55,7 +56,7 @@ namespace GroupAlignment.Core.Estimators
         }
 
         /// <summary>
-        /// Gets distance estimate for 2 nucleotides
+        /// Gets distance estimate for nucleotide and profile
         /// </summary>
         /// <param name="nucleotide">The nucleotide.</param>
         /// <param name="profileItem">The profile item.</param>
@@ -66,7 +67,7 @@ namespace GroupAlignment.Core.Estimators
         }
 
         /// <summary>
-        /// Gets distance estimate for 2 nucleotides
+        /// Gets distance estimate for 2 profiles
         /// </summary>
         /// <param name="profileItem1">The profile item 1.</param>
         /// <param name="profileItem2">The profile item 2.</param>
@@ -76,28 +77,19 @@ namespace GroupAlignment.Core.Estimators
             return
                 (from i1 in profileItem1
                  from i2 in profileItem2
-                 select i1.Value * i2.Value * this.NucleotideDistance(i1.Key, i2.Key)).Sum();
+                 select i1.Value * i2.Value * this.NucleotideDistance(i1.Key, i2.Key))
+                .Sum();
         }
-        
-        /// <summary>
-        /// Combines 2 lists to one
-        /// </summary>
-        /// <param name="first">The first list.</param>
-        /// <param name="second">The second list.</param>
-        /// <param name="selector">The selector.</param>
-        /// <typeparam name="TFirst">First type</typeparam>
-        /// <typeparam name="TSecond">Second type</typeparam>
-        /// <typeparam name="TResult">Result type</typeparam>
-        /// <returns>Pair list</returns>
-        /// <exception cref="Exception">Exception - if length are different</exception>
-        public IEnumerable<TResult> ToPair<TFirst, TSecond, TResult>(List<TFirst> first, List<TSecond> second, Func<TFirst, TSecond, TResult> selector)
-        {
-            if (first.Count != second.Count)
-            {
-                throw new Exception();
-            }
 
-            return first.Select((t, i) => selector.Invoke(t, second[i]));
+        /// <summary>
+        /// Gets distance estimate for 2 profiles
+        /// </summary>
+        /// <param name="profile1">The profile 1.</param>
+        /// <param name="profile2">The profile 2.</param>
+        /// <returns>Distance estimate</returns>
+        public double ProfilesDistance(Profile profile1, Profile profile2)
+        {
+            return Extensions.ToPair(profile1, profile2, this.ProfileItemsDistance).Sum() * profile1.Count * profile2.Count;
         }
     }
 }

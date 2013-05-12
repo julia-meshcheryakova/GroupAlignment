@@ -32,9 +32,24 @@ namespace GroupAlignment.Core.Algorithms
         /// The generate method.
         /// </summary>
         /// <param name="alignment">The multiple alignment.</param>
-        public void FillAlignedSequences(MultipleAlignment alignment)
+        public void FillAlignedSequences(MultipleAlignment alignment, Dictionary<Index, PairAlignment> pairsMap)
         {
+            if (alignment.First == null || alignment.Second == null)
+            {
+                return;
+            }
+
             alignment.AlignedSequences = this.GenerateAlignedSequences(alignment);
+            alignment.Size = 
+                alignment.First.Size +
+                alignment.Second.Size +
+                alignment.ProfilesTable.Min(p => p.Value[new Index(p.Value.First.Count, p.Value.Second.Count)].Distance);
+            alignment.Diameter = new[]
+                                     {
+                                         alignment.First.Diameter,
+                                         alignment.Second.Diameter,
+                                         Extensions.ToPair(alignment.First, alignment.Second, (x, y) => pairsMap[new Index(x.Id.Value, y.Id.Value)].Distance).Max()
+                                     }.Max();
         }
 
         /// <summary>
@@ -51,7 +66,7 @@ namespace GroupAlignment.Core.Algorithms
 
             var minDistance =
                 alignment.ProfilesTable.Min(p => p.Value[new Index(p.Value.First.Count, p.Value.Second.Count)].Distance);
-
+            
             var optimalDynamicTables =
                 alignment.ProfilesTable.Where(
                     p => p.Value[new Index(p.Value.First.Count, p.Value.Second.Count)].Distance.IsEqualTo(minDistance)).Select(item => item.Value).ToList();
@@ -81,12 +96,12 @@ namespace GroupAlignment.Core.Algorithms
                 if (pred.Item1.Equals(cur.Item1))
                 {
                     var secondSequence = alignment.Second.AlignedSequences[table.Second.Id];
-                    sequence.Add(new Column(Column.GetClearColumn(alignment.First.Sequences.Count), secondSequence[jj]));
+                    sequence.Add(new Column(Column.GetClearColumn(alignment.First.Count), secondSequence[jj]));
                 }
                 else if (pred.Item2.Equals(cur.Item2))
                 {
                     var firstSequence = alignment.First.AlignedSequences[table.First.Id];
-                    sequence.Add(new Column(firstSequence[ii], Column.GetClearColumn(alignment.Second.Sequences.Count)));
+                    sequence.Add(new Column(firstSequence[ii], Column.GetClearColumn(alignment.Second.Count)));
                 }
                 else
                 {
