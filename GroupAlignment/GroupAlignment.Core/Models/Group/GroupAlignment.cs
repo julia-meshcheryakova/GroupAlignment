@@ -35,6 +35,7 @@ namespace GroupAlignment.Core.Models.Group
             }
 
             this.AddRange(list);
+            Groups = new List<MultipleAlignment>();
         }
 
         /// <summary>

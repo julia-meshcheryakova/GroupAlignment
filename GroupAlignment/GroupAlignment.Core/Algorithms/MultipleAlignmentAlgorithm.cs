@@ -44,11 +44,14 @@ namespace GroupAlignment.Core.Algorithms
                 alignment.First.Size +
                 alignment.Second.Size +
                 alignment.ProfilesTable.Min(p => p.Value[new Index(p.Value.First.Count, p.Value.Second.Count)].Distance);
+            var pairsFromFirstAndSecond = (from m in alignment.First
+                                           from m2 in alignment.Second
+                                           select new Index(m.Id.Value, m2.Id.Value)).ToList();
             alignment.Diameter = new[]
                                      {
                                          alignment.First.Diameter,
                                          alignment.Second.Diameter,
-                                         Extensions.ToPair(alignment.First, alignment.Second, (x, y) => pairsMap[new Index(x.Id.Value, y.Id.Value)].Distance).Max()
+                                         pairsFromFirstAndSecond.Select(index => pairsMap[index].Distance).Max()
                                      }.Max();
         }
 

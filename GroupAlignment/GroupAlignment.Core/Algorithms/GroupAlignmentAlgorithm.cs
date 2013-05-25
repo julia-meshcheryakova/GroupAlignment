@@ -69,7 +69,7 @@ namespace GroupAlignment.Core.Algorithms
         /// <param name="alignment">The pair alignment.</param>
         public void CondensateStep(GroupAlignment alignment)
         {
-            var newGroup = alignment.CondensateMap.OrderByDescending(item => item.Value.Diameter).First().Value;
+            var newGroup = alignment.CondensateMap.OrderBy(item => item.Value.Diameter).First().Value;
             
             // ToDo: check if removes. Overwise find by id
             alignment.Groups.Remove(newGroup.First);
@@ -85,7 +85,12 @@ namespace GroupAlignment.Core.Algorithms
         /// <param name="alignment">The group alignment.</param>
         public void InitializeCondensateMap(GroupAlignment alignment)
         {
-            if (!alignment.Groups.Any())
+            if (alignment.PairAlignmentsMap == null || !alignment.PairAlignmentsMap.Any())
+            {
+                this.FillPairAlignmentsMap(alignment);
+            }
+
+            if (alignment.Groups == null || !alignment.Groups.Any())
             {
                 this.InitializeGroups(alignment);
             }
@@ -94,7 +99,7 @@ namespace GroupAlignment.Core.Algorithms
             foreach (var group1 in alignment.Groups)
             {
                 // except the diagonal elements and filled cells (the table is been filling for symmetrical elements in one step)
-                foreach (var group2 in alignment.Groups.Where(a => a.Id != group1.Id && map[new Index(group1.Id, a.Id)] == null))
+                foreach (var group2 in alignment.Groups.Where(a => a.Id != group1.Id && !map.ContainsKey(new Index(group1.Id, a.Id))))
                 {
                     var m = new MultipleAlignment(alignment.GroupsCounter, group1, group2);
                     alignment.GroupsCounter++;
@@ -115,8 +120,10 @@ namespace GroupAlignment.Core.Algorithms
         public void UpdateCondensateMap(GroupAlignment alignment, MultipleAlignment newGroup)
         {
             // clean parent elements from condensate map
-            var removed = alignment.CondensateMap.Where(item => item.Key.Item1 == newGroup.First.Id || item.Key.Item2 == newGroup.First.Id ||
-                                                                item.Key.Item1 == newGroup.Second.Id || item.Key.Item2 == newGroup.Second.Id);
+            var removed = alignment.CondensateMap
+                .Where(item => item.Key.Item1 == newGroup.First.Id || item.Key.Item2 == newGroup.First.Id ||
+                               item.Key.Item1 == newGroup.Second.Id || item.Key.Item2 == newGroup.Second.Id)
+                .ToList();
             foreach (var keyValuePair in removed)
             {
                 alignment.CondensateMap.Remove(keyValuePair.Key);
