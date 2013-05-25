@@ -127,10 +127,10 @@ namespace GroupAlignment.Core.Algorithms
             // fill variants
             var ways = new List<List<Index>>();
             ways.Add(new List<Index> { new Index(dynamicTable.First.Count, dynamicTable.Second.Count) });
-            while (ways.Any(l => (l.First().Item1 as int?) != 0 && (l.First().Item2 as int?) != 0))
+            while (ways.Any(l => !(l.First().Item1 == 0 && l.First().Item2 == 0)))
             {
                 var waysCopy = new List<List<Index>>();
-                foreach (var way in ways.Where(l => (l.First().Item1 as int?) != 0 && (l.First().Item2 as int?) != 0))
+                foreach (var way in ways.Where(l => !(l.First().Item1 == 0 && l.First().Item2 == 0)))
                 {
                     var pair = way.First();
                     var predecessors = dynamicTable[pair].Predecessors;
