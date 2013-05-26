@@ -3,6 +3,7 @@ namespace GroupAlignment.Core.Models.Group
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
 
     using global::GroupAlignment.Core.Estimators;
     using global::GroupAlignment.Core.Extensions;
@@ -134,6 +135,31 @@ namespace GroupAlignment.Core.Models.Group
 
                 return profiles;
             }
+        }
+
+        /// <summary>
+        /// Converts to string.
+        /// </summary>
+        /// <param name="variant">The variant index.</param>
+        /// <returns>The aligned strings.</returns>
+        public string ToString(int variant = 0)
+        {
+            var max = this.AlignedSequences.Count;
+            if (variant < 0 || variant > max - 1)
+            {
+                return string.Empty;
+            }
+
+            var alignment = this.AlignedSequences[variant];
+            var alignedSequences = alignment.ToSequenceList();
+            var sb = new StringBuilder();
+            for (var i = 0; i < alignedSequences.Count; i++)
+            {
+                sb.AppendFormat("{0} \t{1}", this[i].Id.Value, alignedSequences[i].ToString());
+                sb.AppendLine();
+            }
+
+            return sb.ToString();
         }
     }
 }

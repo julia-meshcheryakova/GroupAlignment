@@ -1,8 +1,10 @@
 ﻿
 namespace GroupAlignment.Core.Models.Group
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
 
     /// <summary>
     /// Sequence - chain of the nucleotides
@@ -14,18 +16,21 @@ namespace GroupAlignment.Core.Models.Group
         /// </summary>
         public MultipleSequence()
         {
+            this.Sequences = new List<Sequence>();
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MultipleSequence"/> class.
         /// </summary>
         /// <param name="sequence">The sequence.</param>
-        public MultipleSequence(IEnumerable<Nucleotide> sequence)
+        public MultipleSequence(Sequence sequence)
+            : this()
         {
             foreach (var n in sequence)
             {
                 this.Add(new Column(new List<Nucleotide> { n }));
             }
+            this.Sequences.Add(sequence);
         }
 
         /// <summary>
@@ -33,8 +38,10 @@ namespace GroupAlignment.Core.Models.Group
         /// </summary>
         /// <param name="sequences">The sequence.</param>
         public MultipleSequence(IEnumerable<Sequence> sequences)
+            : this()
         {
             var list = sequences.ToList();
+            this.Sequences.AddRange(list);
             var maxLength = list.Max(s => s.Count);
             var completedSequences = list.Select(s => Sequence.Complete(s, maxLength)).ToList();
             for (var i = 0; i < maxLength; i++)
@@ -48,9 +55,12 @@ namespace GroupAlignment.Core.Models.Group
         /// </summary>
         /// <param name="list">The list of nucleotide pairs.</param>
         public MultipleSequence(IEnumerable<Column> list)
+            : this()
         {
             this.AddRange(list);
         }
+
+        public List<Sequence> Sequences { get; set; }
 
         /// <summary>
         /// Gets the profile (enumerated from 1).
@@ -72,6 +82,31 @@ namespace GroupAlignment.Core.Models.Group
 
                 return profile;
             }
+        }
+
+        public List<Sequence> ToSequenceList()
+        {
+            var list = new List<Sequence>();
+            for (var i = 0; i < this.First().Count; i++)
+            {
+                list.Add(new Sequence(this.Select(column => column[i]).ToList()));
+            }
+            return list;
+        }
+
+        /// <summary>
+        /// Cast to string.
+        /// </summary>
+        /// <returns>The sequence string.</returns>
+        public new string ToString()
+        {
+            var sb = new StringBuilder();
+            foreach (var sequence in this.Sequences)
+            {
+                sb.AppendFormat("{0} \t{1}", sequence.Id.Value, sequence.ToString());
+                sb.AppendLine();
+            }
+            return sb.ToString();
         }
     }
 }

@@ -35,7 +35,7 @@ namespace GroupAlignment.Core.Models.Group
             }
 
             this.AddRange(list);
-            Groups = new List<MultipleAlignment>();
+            this.ClearAlignment();
         }
 
         /// <summary>
@@ -85,6 +85,11 @@ namespace GroupAlignment.Core.Models.Group
         public List<MultipleAlignment> Groups { get; set; }
 
         /// <summary>
+        /// Gets or sets aligned sequences.
+        /// </summary>
+        public List<MultipleAlignment> AllGroups { get; set; }
+
+        /// <summary>
         /// Gets the length.
         /// </summary>
         public int Length
@@ -93,6 +98,18 @@ namespace GroupAlignment.Core.Models.Group
             {
                 return this.First().Count;
             }
+        }
+
+        /// <summary>
+        /// Clears alignment.
+        /// </summary>
+        public void ClearAlignment()
+        {
+            this.Groups = new List<MultipleAlignment>();
+            this.AllGroups = new List<MultipleAlignment>();
+            this.PairAlignmentsMap = new Dictionary<Index, PairAlignment>();
+            this.CondensateMap = new Dictionary<Index, MultipleAlignment>();
+            this.GroupsCounter = 0;
         }
     }
 }

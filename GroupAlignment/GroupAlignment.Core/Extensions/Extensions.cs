@@ -3,7 +3,11 @@ namespace GroupAlignment.Core.Extensions
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
+    using System.Runtime.Serialization.Formatters.Binary;
+
+    using GroupAlignment.Core.Models;
 
     /// <summary>
     /// The extensions.
@@ -30,6 +34,33 @@ namespace GroupAlignment.Core.Extensions
         public static List<T> CloneEnumList<T>(this IEnumerable<T> oldList)
         {
             return new List<T>(oldList);
+        }
+
+        /// <summary>
+        /// The string to sequence convert.
+        /// </summary>
+        /// <param name="sequence">The sequence string.</param>
+        /// <returns>The <see cref="Sequence"/>. </returns>
+        public static Sequence StringToSequence(this string sequence)
+        {
+            return new Sequence(sequence.ToCharArray().Select(ch => ch.CharToNucleotide()).ToList());
+        }
+
+        /// <summary>
+        /// The char to nucleotide convert.
+        /// </summary>
+        /// <param name="symbol">The symbol.</param>
+        /// <returns>The <see cref="Nucleotide"/>.</returns>
+        public static Nucleotide CharToNucleotide(this char symbol)
+        {
+            try
+            {
+                return (Nucleotide)Enum.Parse(typeof(Nucleotide), symbol.ToString());
+            }
+            catch (Exception)
+            {
+                return Nucleotide.N;
+            }
         }
 
         /// <summary>
@@ -97,6 +128,26 @@ namespace GroupAlignment.Core.Extensions
             }
 
             return list1.Select((t, i) => selector.Invoke(t, list2[i]));
+        }
+
+        /// <summary>
+        /// The deep clone.
+        /// </summary>
+        /// <param name="obj">The obj.</param>
+        /// <returns>The <see cref="object"/>.</returns>
+        public static object DeepClone(this object obj)
+        {
+            object objResult = null;
+            using (var ms = new MemoryStream())
+            {
+                var bf = new BinaryFormatter();
+                bf.Serialize(ms, obj);
+
+                ms.Position = 0;
+                objResult = bf.Deserialize(ms);
+            }
+
+            return objResult;
         }
     }
 }

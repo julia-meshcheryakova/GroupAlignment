@@ -1,7 +1,11 @@
 ﻿
 namespace GroupAlignment.Core.Models
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
+
+    using GroupAlignment.Core.Extensions;
 
     /// <summary>
     /// Sequence - chain of the nucleotides
@@ -23,6 +27,17 @@ namespace GroupAlignment.Core.Models
         public Sequence(IEnumerable<Nucleotide> list, int? id = null)
         {
             this.AddRange(list);
+            this.Id = id;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Sequence"/> class.
+        /// </summary>
+        /// <param name="sequenceString">The sequenceString string.</param>
+        /// <param name="id">The id.</param>
+        public Sequence(string sequenceString, int? id = null)
+        {
+            this.AddRange(sequenceString.ToCharArray().Select(ch => ch.CharToNucleotide()).ToList());
             this.Id = id;
         }
 
@@ -67,6 +82,15 @@ namespace GroupAlignment.Core.Models
             }
 
             return completedSequence;
+        }
+
+        /// <summary>
+        /// Cast to string.
+        /// </summary>
+        /// <returns>The sequence string.</returns>
+        public new string ToString()
+        {
+            return string.Join("", this.Select(n => Enum.GetName(typeof(Nucleotide), n)));
         }
     }
 }

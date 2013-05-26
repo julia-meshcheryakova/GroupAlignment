@@ -20,13 +20,13 @@ namespace GroupAlignment.Core.Estimators
         /// <param name="replace">The replace weight.</param>
         /// <param name="equality">The equality weight.</param>
         /// <param name="undefined">The undefined weight.</param>
-        public OperationDistanceEstimator(int delete, int replace, int equality, int undefined)
+        public OperationDistanceEstimator(double delete, double replace, double equality, double undefined)
         {
             this.Delete = delete;
             this.Replace = replace;
             this.Equality = equality;
             this.Undefined = undefined;
-            this.DistanceMap = new Dictionary<NucleotidePair, int>();
+            this.DistanceMap = new Dictionary<NucleotidePair, double>();
             var allNucleotides = Enum.GetValues(typeof(Nucleotide)).Cast<Nucleotide>().ToList();
             var allPairs = (from first in allNucleotides 
                             from second in allNucleotides 
@@ -56,27 +56,27 @@ namespace GroupAlignment.Core.Estimators
         /// <summary>
         /// Gets or sets the distance delete - distance with _.
         /// </summary>
-        public int Delete { get; set; }
+        public double Delete { get; set; }
 
         /// <summary>
         /// Gets or sets the replace weight - distance with the other nucleotide.
         /// </summary>
-        public int Replace { get; set; }
+        public double Replace { get; set; }
 
         /// <summary>
         /// Gets or sets the equal weight - nucleotides match.
         /// </summary>
-        public int Equality { get; set; }
+        public double Equality { get; set; }
 
         /// <summary>
         /// Gets or sets the N weight - with undefined nucleotide.
         /// </summary>
-        public int Undefined { get; set; }
+        public double Undefined { get; set; }
 
         /// <summary>
         /// Gets the distance map.
         /// </summary>
-        public Dictionary<NucleotidePair, int> DistanceMap { get; private set; }
+        public Dictionary<NucleotidePair, double> DistanceMap { get; private set; }
             
         /// <summary>
         /// Gets simple distance estimate for 2 sequences

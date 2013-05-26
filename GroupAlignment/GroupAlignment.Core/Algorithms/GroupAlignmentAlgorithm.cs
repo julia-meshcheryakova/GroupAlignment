@@ -60,6 +60,7 @@ namespace GroupAlignment.Core.Algorithms
         public void InitializeGroups(GroupAlignment alignment)
         {
             alignment.Groups = alignment.Select(s => new MultipleAlignment(s.Id, new[] { s }, this.Estimator)).ToList();
+            alignment.AllGroups.AddRange(alignment.Groups);
             alignment.GroupsCounter = alignment.Groups.Max(g => g.Id) + 1;
         }
 
@@ -69,12 +70,16 @@ namespace GroupAlignment.Core.Algorithms
         /// <param name="alignment">The pair alignment.</param>
         public void CondensateStep(GroupAlignment alignment)
         {
-            var newGroup = alignment.CondensateMap.OrderBy(item => item.Value.Diameter).First().Value;
+            var newGroup =
+                alignment.CondensateMap.OrderBy(item => item.Value.Diameter)
+                         .ThenBy(item => item.Value.Size)
+                         .ThenBy(item => item.Value.Id)
+                         .First().Value;
             
-            // ToDo: check if removes. Overwise find by id
             alignment.Groups.Remove(newGroup.First);
             alignment.Groups.Remove(newGroup.Second);
             alignment.Groups.Add(newGroup);
+            alignment.AllGroups.Add(newGroup);
 
             this.UpdateCondensateMap(alignment, newGroup);
         }
@@ -132,7 +137,17 @@ namespace GroupAlignment.Core.Algorithms
             // except the diagonal element
             foreach (var group1 in alignment.Groups.Where(a => a.Id != newGroup.Id))
             {
-                var m = new MultipleAlignment(alignment.GroupsCounter, group1, newGroup);
+                MultipleAlignment m;
+                if (group1.Diameter < newGroup.Diameter
+                    || (group1.Diameter == newGroup.Diameter && group1.Size < newGroup.Size))
+                {
+                    m = new MultipleAlignment(alignment.GroupsCounter, group1, newGroup);
+                }
+                else
+                {
+                    m = new MultipleAlignment(alignment.GroupsCounter, newGroup, group1);
+                }
+
                 alignment.GroupsCounter++;
                 this.MultipleAlignmentAlgorithm.FillAlignedSequences(m, alignment.PairAlignmentsMap);
                 alignment.CondensateMap[new Index(group1.Id, newGroup.Id)] = m;
